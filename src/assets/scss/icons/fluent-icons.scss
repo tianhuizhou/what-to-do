@@ -1,0 +1,21 @@
+@use './fluent-icons-regular.css';
+@use './fluent-icons-solid.css';
+
+i[class^='fir-'],
+i[class*=' fir-'],
+i[class^='fis-'],
+i[class*=' fis-'] {
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  font-size: 1.2em;
+  vertical-align: -0.15em; // There is space below the icon image, baseline won't work
+  margin: 0 3px;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

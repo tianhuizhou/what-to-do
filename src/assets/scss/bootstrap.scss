@@ -1,0 +1,227 @@
+$min-contrast-ratio: 3;
+$body-bg: $light;
+
+$spacer: 1rem;
+
+// Typography
+
+@use './fonts/Nunito.css';
+@use './fonts/FiraCode.css';
+$font-family-sans-serif: 'Nunito', sans-serif;
+$font-family-monospace: 'Fira Code', monospace;
+
+$enable-rfs: false; // Responsive Font Sizes: https://getbootstrap.com/docs/5.0/getting-started/rfs/
+$font-size-base: 0.875rem;
+
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+$h1-font-size: $font-size-base * 1.9;
+$h2-font-size: $font-size-base * 1.3;
+$h3-font-size: $font-size-base * 1.15;
+$h4-font-size: $font-size-base;
+$h5-font-size: $font-size-base * 0.85;
+$h6-font-size: $font-size-base * 0.8;
+
+$headings-font-weight: $font-weight-semibold;
+
+// Inputs
+
+$input-border-color: $gray-300;
+$input-focus-border-color: $primary;
+// $input-placeholder-color: if dark: $gray-500; if light: $gray-600
+
+// $input-disabled-bg: $gray-300; // disabled bg-color ??
+
+$input-height: 40px;
+$input-height-sm: 30px;
+$input-height-lg: 50px;
+
+// $input-font-weight: $font-weight-semibold; ??
+
+$border-width: 2px;
+$input-btn-focus-width: 0;
+
+$border-radius: 20px;
+$border-radius-sm: 15px;
+$border-radius-lg: 20px;
+
+$line-height-base: 1.375;
+$line-height-sm: 1.15;
+$line-height-lg: 1.375;
+
+$input-btn-padding-x: 18px;
+$input-btn-padding-x-sm: 12px;
+$input-btn-padding-x-lg: 24px;
+
+$input-btn-padding-y: 9px - $border-width;
+$input-btn-padding-y-sm: 4px - $border-width;
+$input-btn-padding-y-lg: 12px - $border-width;
+
+// Buttons
+
+$btn-font-size: $font-size-base * 1.15;
+$btn-font-size-sm: $font-size-base;
+$btn-font-size-lg: $font-size-base * 1.15;
+
+$btn-disabled-opacity: 0.6;
+
+$btn-font-weight: $font-weight-bold;
+
+$link-decoration: none;
+//
+
+$input-bg: $white;
+$input-disabled-bg: mix($gray-200, $light, 60%);
+$input-group-addon-bg: $input-bg;
+$input-disabled-border-color: $gray-300;
+
+// white shadow in black theme doesn't look good
+$shadow-color: #000;
+
+// Card
+$card-border-width: 0px;
+$card-border-radius: 12px;
+$card-border-color: transparent;
+$card-box-shadow: 0px 2px 15px rgba($shadow-color, 0.071);
+$card-cap-bg: $white;
+$card-spacer-x: 1.75rem;
+$card-cap-padding-y: 1rem;
+
+// List groups
+$list-group-border-width: 1px;
+
+// Others
+// $grid-gutter-width: 0;
+$hr-height: 1px;
+$hr-color: $gray-200;
+
+$box-shadow: 0 0.5rem 1rem rgba($shadow-color, 0.15);
+$box-shadow-sm: 0 0.125rem 0.25rem rgba($shadow-color, 0.075);
+$box-shadow-lg: 0 1rem 3rem rgba($shadow-color, 0.175);
+$box-shadow-inset: inset 0 1px 2px rgba($shadow-color, 0.075);
+
+@import './bootstrap-utilities.scss';
+@import '~bootstrap/scss/bootstrap';
+
+.btn {
+  white-space: nowrap;
+
+  height: $input-height;
+  &.btn-sm {
+    height: $input-height-sm;
+    font-weight: $font-weight-semibold;
+  }
+  &.btn-lg {
+    height: $input-height-lg;
+  }
+  &.btn-link {
+    font-weight: $btn-font-weight;
+    line-height: $line-height-base;
+  }
+
+  &.btn-circle {
+    width: $input-height;
+    padding: $input-btn-padding-y;
+    &.btn-sm {
+      width: $input-height-sm;
+      padding: $input-btn-padding-y-sm;
+    }
+    &.btn-lg {
+      width: $input-height-lg;
+      padding: $input-btn-padding-y-lg;
+    }
+  }
+}
+
+// WebKit browsers (Safari) breaks the style without this
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  -webkit-appearance: none;
+}
+
+.form-control {
+  height: $input-height;
+
+  &.form-control-sm {
+    height: $input-height-sm;
+  }
+  &.form-control-lg {
+    height: $input-height-lg;
+  }
+}
+
+.card {
+  @if $dark-theme {
+    box-shadow: 0px 3px 15px rgba($shadow-color, 0.2);
+  } @else {
+    box-shadow: $card-box-shadow;
+  }
+
+  .card-header + .card-body {
+    padding-top: 0;
+  }
+}
+
+.list-group-flush {
+  & > .list-group-item:first-child {
+    border-top-width: 1px;
+  }
+  & > .list-group-item:last-child {
+    border-bottom-width: 1px;
+  }
+}
+
+// Could be done via the API: https://getbootstrap.com/docs/5.0/utilities/text/#utilities-api
+.fw-semibold {
+  font-weight: $font-weight-semibold !important;
+}
+
+hr {
+  opacity: 1;
+}
+
+td.text-hover-primary {
+  &:hover {
+    color: $primary;
+  }
+}
+
+@mixin bs-alert($name, $color, $text, $base) {
+  $_text: mix($color, $text, 40%);
+  $_bg: mix($color, $base, 17%);
+  $_border: mix($color, $base, 40%);
+
+  .alert-#{$name} {
+    background-color: $_bg;
+    color: $_text;
+    border-color: $_border;
+
+    hr {
+      color: $_border;
+    }
+
+    .alert-link {
+      color: $_text;
+    }
+  }
+}
+
+@include bs-alert('primary', $primary, $dark, $whitest);
+@include bs-alert('secondary', $secondary, $dark, $whitest);
+@include bs-alert('success', $success, $dark, $whitest);
+@include bs-alert('danger', $danger, $dark, $whitest);
+@include bs-alert('warning', $warning, $dark, $whitest);
+@include bs-alert('info', $info, $dark, $whitest);
+@include bs-alert('light', $light, $dark, $whitest);
+@include bs-alert('dark', $dark, $dark, $whitest);
+
+/* The solution to fix text-truncate
+ * .subtitle has a width of 100%, the min-width: auto calculation that flexbox makes says that its container should be larger than we want.
+ * resource: https://css-tricks.com/flexbox-truncated-text/#aa-the-solution-is-min-width-0-on-the-flex-child
+ */
+.row {
+  min-width: 0;
+}

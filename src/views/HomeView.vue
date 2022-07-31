@@ -4,6 +4,7 @@
     <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
     {{ user.name }}
     <el-tag>asd</el-tag>
+    <div class="card bg-primary">asdfasdfadsfasdf</div>
   </div>
 </template>
 
