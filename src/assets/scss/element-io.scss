@@ -1,23 +1,4 @@
 @use 'sass:math';
-// ~element-ui/packages/theme-chalk/src/common/var.scss
-
-/* theme color */
-$--color-primary: $primary;
-$--color-success: $success;
-$--color-warning: $warning;
-$--color-danger: $danger;
-$--color-info: $info;
-$--color-white: $white;
-$--color-black: $black;
-
-$--color-text-primary: $primary;
-$--color-text-regular: $dark;
-$--color-text-secondary: $secondary;
-
-$--border-color-extra-light: $gray-100;
-$--border-color-lighter: $gray-200;
-$--border-color-light: $gray-300;
-
 // Typography
 
 $--font-size-base: $font-size-base;
@@ -26,85 +7,100 @@ $--font-size-large: $font-size-lg;
 $--font-path: '~element-plus/theme-chalk/fonts'; // icon font path, required
 
 $--font-weight-primary: $font-weight-normal;
-
-// Inputs
-
-$--border-color-base: $input-border-color;
-$--border-color-hover: $--border-color-base;
-
-$--color-text-placeholder: $input-placeholder-color;
-$--border-width-base: $border-width;
-
-$--border-radius-base: $border-radius;
-$--border-radius-small: $border-radius-sm;
-
-$--disabled-fill-base: $input-disabled-bg;
-// $--disabled-color-base: ;
-$--disabled-border-base: $input-disabled-border-color;
-
-// Cascader
-$--cascader-menu-radius: $border-radius;
-$--cascader-menu-border: 1px solid $gray-400;
-
-// Radio
-
-$--radio-button-disabled-checked-fill: $input-disabled-bg;
-$--radio-input-border-color: $gray-800;
-$--radio-input-height: 18px;
-$--radio-input-width: 18px;
-
-// Checkbox
-
-$--checkbox-font-size: $font-size-base;
-$--checkbox-disabled-input-fill: $input-disabled-bg;
-$--checkbox-disabled-checked-input-fill: $input-disabled-bg;
-$--checkbox-input-border-color: $gray-800;
-$--checkbox-input-height: 18px;
-$--checkbox-input-width: 18px;
-$--checkbox-border-radius: 4px;
-
-// Switch
-
-$--switch-width: 48px;
-$--switch-height: 25px;
-$--switch-button-size: 23px;
-$--switch-core-border-radius: $border-radius;
-$--switch-font-size: $font-size-base;
-
-// Collapse
-$--collapse-border-color: transparent;
-$--collapse-header-height: unset;
-$--collapse-header-background-color: transparent;
-
-$--collapse-header-font-color: inherit;
-$--collapse-header-font-size: inherit;
-$--collapse-content-background-color: transparent;
-$--collapse-content-font-size: inherit;
-$--collapse-content-font-color: inherit;
-
-// Card
-$--card-border-color: $card-border-color;
-$--card-border-radius: $card-border-radius;
-$--card-padding: $card-spacer-x;
-
-// Table
-$--table-header-font-color: $gray-800;
-
-// Avatar
-$--avatar-font-color: $dark;
-$--avatar-background-color: $light;
-$--avatar-text-font-size: 1.2rem;
-
-// Slider
-$--slider-height: 2px;
-$--slider-button-wrapper-offset: -17px;
-
-$--tooltip-fill: $dark;
-$--tooltip-border-color: $dark;
 @import '~element-plus/theme-chalk/src/index';
 
-// Input
+:root {
+  --el-color-primary: #{$primary};
+  --el-color-success: #{$success};
+  --el-color-warning: #{$warning};
+  --el-color-danger: #{$danger};
+  --el-color-info: #{$info};
+  --el-color-white: #{$white};
+  --el-color-black: #{$black};
 
+  --el-color-text-primary: #{$primary};
+  --el-color-text-regular: #{$dark};
+  --el-color-text-secondary: #{$secondary};
+
+  --el-border-color-extra-light: #{$gray-100};
+  --el-border-color-lighter: #{$gray-200};
+  --el-border-color-light: #{$gray-300};
+
+  // Inputs
+
+  --el-border-color-base: #{$input-border-color};
+  --el-border-color-hover: #{$input-border-color};
+
+  --el-color-text-placeholder: #{$input-placeholder-color};
+  --el-border-width-base: #{$border-width};
+
+  --el-border-radius-base: #{$border-radius};
+  --el-border-radius-small: #{$border-radius-sm};
+
+  --el-disabled-fill-base: #{$input-disabled-bg};
+  // $--disabled-color-base: ;
+  --el-isabled-border-base: #{$input-disabled-border-color};
+
+  // Cascader
+  --el-cascader-menu-radius: #{$border-radius};
+  --el-cascader-menu-border: 1px solid #{$gray-400};
+
+  // Radio
+
+  --el-radio-button-disabled-checked-fill: #{$input-disabled-bg};
+  --el-radio-input-border-color: #{$gray-800};
+  --el-radio-input-height: 18px;
+  --el-radio-input-width: 18px;
+
+  // Checkbox
+
+  --el-checkbox-font-size: #{$font-size-base};
+  --el-checkbox-disabled-input-fill: #{$input-disabled-bg};
+  --el-checkbox-disabled-checked-input-fill: #{$input-disabled-bg};
+  --el-checkbox-input-border-color: #{$gray-800};
+  --el-checkbox-input-height: 18px;
+  --el-checkbox-input-width: 18px;
+  --el-checkbox-border-radius: 4px;
+
+  // Switch
+
+  --el-switch-width: 48px;
+  --el-switch-height: 25px;
+  --el-switch-button-size: 23px;
+  --el-switch-core-border-radius: #{$border-radius};
+  --el-switch-font-size: #{$font-size-base};
+
+  // Collapse
+  --el-collapse-border-color: transparent;
+  --el-collapse-header-height: unset;
+  --el-collapse-header-background-color: transparent;
+
+  --el-collapse-header-font-color: inherit;
+  --el-collapse-header-font-size: inherit;
+  --el-collapse-content-background-color: transparent;
+  --el-collapse-content-font-size: inherit;
+  --el-collapse-content-font-color: inherit;
+
+  --el-avatar-font-color: #{$dark};
+  --el-avatar-background-color: #{$light};
+  --el-avatar-text-font-size: 1.2rem;
+  // Slider
+  --slider-height: 2px;
+  --slider-button-wrapper-offset: -17px;
+
+  --el-tooltip-fill: #{$dark};
+  --el-tooltip-border-color: #{$dark};
+
+  // Card
+  --el-card-border-color: #{$card-border-color};
+  --el-card-border-radius: #{$card-border-radius};
+  --el-card-padding: #{$card-spacer-x};
+
+  // Table
+  --el-table-header-font-color: #{$gray-800};
+}
+
+// Input
 .el-input__inner,
 .el-textarea__inner {
   height: $input-height;
@@ -188,7 +184,8 @@ $--tooltip-border-color: $dark;
 // el-dropdown
 .el-dropdown-menu {
   padding: 0;
-  border: 1px solid $gray-400;
+  border: 1px solid $gray-400 !important;
+  border-radius: 8px;
   box-shadow: $box-shadow;
   .el-dropdown-menu__item {
     @include select-item();
@@ -267,20 +264,20 @@ $--tooltip-border-color: $dark;
 
   &--small {
     @include range-input-size(
-      $input-height-sm,
-      $line-height-sm,
-      $input-padding-x-sm,
-      $input-padding-y-sm,
-      $font-size-sm
+                    $input-height-sm,
+                    $line-height-sm,
+                    $input-padding-x-sm,
+                    $input-padding-y-sm,
+                    $font-size-sm
     );
   }
   &--large {
     @include range-input-size(
-      $input-height-lg,
-      $line-height-lg,
-      $input-padding-x-lg,
-      $input-padding-y-lg,
-      $font-size-lg
+                    $input-height-lg,
+                    $line-height-lg,
+                    $input-padding-x-lg,
+                    $input-padding-y-lg,
+                    $font-size-lg
     );
   }
 }
@@ -504,9 +501,9 @@ $--tooltip-border-color: $dark;
   .el-input__prefix {
     left: $padding-x * 0.5;
   }
-  .el-input--prefix .el-input__inner {
-    padding-left: add($padding-x, $icon-x);
-  }
+  //.el-input--prefix .el-input__inner {
+  //  padding-left: add($padding-x, $icon-x);
+  //}
   .el-input__suffix {
     right: $padding-x * 0.5;
   }
@@ -560,7 +557,7 @@ $--tooltip-border-color: $dark;
     background-color: $color;
     // border-color: mix($color, $base, 20%);
     color: $text;
-    //
+
     //@include when(hit) {
     //  border-color: mix($color, $text, 50%);
     //}
@@ -1193,4 +1190,29 @@ $--tooltip-border-color: $dark;
 }
 .el-progress__text {
   font-size: inherit !important;
+}
+
+.sidebar .el-menu {
+  border: 0;
+  background-color: inherit;
+  //transition: none;
+  .el-menu-item, .el-sub-menu__title {
+    background-color: inherit;
+    height: 32px;
+  }
+  .el-menu-item.is-active {
+    background-color: #d2e3fc;
+    border-radius: 0 16px 16px 0;
+  }
+}
+
+nav {
+  .el-input__wrapper {
+    background-color: #ecf1fb;
+    box-shadow: none;
+  }
+  .el-input__wrapper.is-focus {
+    background-color: $white;
+    box-shadow: 0 1px 1px 0 $gray-400, 0 1px 3px 1px $gray-200
+  }
 }

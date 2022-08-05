@@ -1,6 +1,8 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <button class="btn btn-primary" @click="sumString()">Add string</button>
+    <h1>{{ concat_string }}</h1>
     <p>
       For a guide and recipes on how to configure / customize this project,<br />
       check out the
@@ -89,12 +91,28 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { mapGetters } from 'vuex'
+  import { defineComponent, ref, onMounted } from 'vue'
 
   export default defineComponent({
     name: 'HelloWorld',
     props: {
       msg: String,
+    },
+    setup(props) {
+      const concat_string = ref<string>('default string')
+      function sumString() {
+        concat_string.value += props.msg
+      }
+      //const { getUser: string } = { ...(mapGetters({})) }
+      // onMounted(() => {
+      //   console.log('component is mounted')
+      // })
+
+      return {
+        concat_string,
+        sumString,
+      }
     },
   })
 </script>

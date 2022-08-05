@@ -6,9 +6,8 @@ import './registerServiceWorker'
 
 // UI css/scss import
 import ElementPlus from 'element-plus'
-import '@/assets/scss/themes/light.scss'
 import 'element-plus/dist/index.css'
-
+import '@/assets/scss/themes/light.scss'
 const app = createApp(App)
 
 app.use(ElementPlus)

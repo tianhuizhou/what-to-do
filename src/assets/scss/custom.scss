@@ -1,0 +1,17 @@
+.sidebar {
+    .btn:hover {
+        box-shadow: 0 5px 5px 0 $gray-400, 0 1px 3px 1px $gray-200
+    }
+    &.is-collapse {
+        min-width: $sidebar-menu-collapse-width;
+        width: $sidebar-menu-collapse-width;
+    }
+}
+.btn-compose {
+    --bs-btn-bg: #C2E7FF;
+    --bs-btn-color: $dark;
+    --bs-btn-hover-color: $dark;
+    --bs-btn-hover-bg: #C2E7FF;
+    --bs-btn-border-color: none;
+    font-size: 14px;
+}

@@ -1,4 +1,5 @@
-import axios, { AxiosRequestConfig, AxiosResponse, Method, ResponseType } from 'axios'
+import axios from 'axios'
+import type { AxiosRequestConfig, AxiosResponse, Method, ResponseType } from 'axios'
 
 const axiosHelper = (
   url: string,
