@@ -80,7 +80,7 @@ html {
   --separator-color: #{$separator-color};
 
   --bs-primary-light: #{$primary-light};
-  --bs-body-bg: #f5f7fb!important;
+  --bs-body-bg: #ffffff!important;
 }
 
 #root {
@@ -162,6 +162,7 @@ body.default-transition .sidebar {
 nav {
   width: 100%;
   height: $navbar-height;
+  border-bottom: 1px solid $gray-100;
   .menu-logo {
     width: $navbar-menu-logo-width;
   }
@@ -187,7 +188,7 @@ nav {
 }
 
 .app-container {
-  padding-top: $navbar-height + 5px;
+  padding-top: $navbar-height + 10px;
   display: flex;
   //flex-wrap: wrap;
 }

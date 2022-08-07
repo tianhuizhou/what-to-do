@@ -2,8 +2,10 @@
   <TopNav />
   <div class="app-container">
     <SideBar />
-    <main class="card">
-      <slot> </slot>
+    <main class="card bg-main">
+      <el-scrollbar>
+        <slot> </slot>
+      </el-scrollbar>
     </main>
   </div>
   <Footer />

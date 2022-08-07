@@ -25,9 +25,9 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        name: 'Workspace',
+        name: 'workspace',
         meta: { login: true, module_id: 1000, min_access: 3 },
-        component: () => import(/* webpackChunkName: "workspace" */ '@/views/app/workspaces/Workspaces.vue'),
+        component: () => import(/* webpackChunkName: "workspace" */ '@/views/app/workspace/Workspace.vue'),
       },
     ],
   },
@@ -37,7 +37,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        name: 'Favorite',
+        name: 'favorite',
         meta: { login: true, module_id: 1000, min_access: 3 },
         component: () => import(/* webpackChunkName: "workspace" */ '@/views/app/favorite/Favorite.vue'),
       },

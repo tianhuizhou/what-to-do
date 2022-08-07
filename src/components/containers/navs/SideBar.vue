@@ -2,7 +2,7 @@
   <aside class="sidebar" :class="{ 'is-collapse': is_collapse }">
     <div class="d-flex justify-content-start align-items-center ms-2 mb-2" style="height: 70px">
       <button class="btn btn-lg btn-compose" :class="{ 'ps-2': !is_collapse, 'px-3 py-0': is_collapse }" @click="">
-        <i class="fis-compose" /> <span v-if="!is_collapse" class="ps-2">Compose</span>
+        <i class="fis-organization" /> <span v-if="!is_collapse" class="ps-2">Organization</span>
       </button>
     </div>
     <el-menu
@@ -30,8 +30,8 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from 'vue'
-  import { useRouter } from 'vue-router'
+  import { defineComponent, onMounted, watch, computed } from 'vue'
+  import { useRouter, useRoute } from 'vue-router'
   import { useGetters, useMutations } from '@/helper/vuex'
 
   export default defineComponent({
@@ -39,8 +39,8 @@
       /* Side Menu */
       const router = useRouter()
       const selectMenuItem = (item: string): void => {
-        router.push({ 'path': item })
-        changeSelectedMenuItem(item)
+        router.push({ 'path': item.toLowerCase() })
+        changeSelectedMenuItem(item.toLowerCase())
       }
       /* Vuex */
       // vuex getter functions
@@ -50,6 +50,17 @@
       ])
       const { changeSelectedMenuItem } = useMutations(['changeSelectedMenuItem'])
 
+      /* Life circle hooks */
+      const route = useRoute()
+      watch(
+        () => route.name,
+        (to, from) => {
+          if (to !== from) changeSelectedMenuItem(to)
+        },
+      )
+      onMounted(() => {
+        if (selected_item !== route.name) changeSelectedMenuItem(route.name)
+      })
       return {
         is_collapse,
         selected_item,

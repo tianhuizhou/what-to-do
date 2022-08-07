@@ -1208,7 +1208,7 @@ $--font-weight-primary: $font-weight-normal;
 
 nav {
   .el-input__wrapper {
-    background-color: #ecf1fb;
+    background-color: $light;
     box-shadow: none;
   }
   .el-input__wrapper.is-focus {

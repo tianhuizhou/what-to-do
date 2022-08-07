@@ -1,5 +1,5 @@
 /* Custom Type definition */
-type menuItem = 'home' | 'workspace' | 'favorite'
+type menuItem = 'home' | 'workspace' | 'favorite' | ''
 interface MenuState {
   is_collapse: boolean
   selected_menu_item: menuItem
@@ -8,7 +8,7 @@ interface MenuState {
 /* Variable, Function definition */
 const state = <MenuState>{
   is_collapse: false,
-  selected_menu_item: 'home',
+  selected_menu_item: '',
 }
 
 const getters = {
