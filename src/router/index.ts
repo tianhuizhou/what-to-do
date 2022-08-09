@@ -1,5 +1,7 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import appLayout from '@/views/app/AppView.vue'
+import externalLayout from '@/views/external/ExternalView.vue'
+import AuthGuard from '@/utils/auth_guard'
 
 const routes: Array<RouteRecordRaw> = [
   // App Layout
@@ -14,7 +16,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'home',
-        meta: { login: true, module_id: 1000, min_access: 3 },
+        meta: { login: true },
         component: () => import(/* webpackChunkName: "home" */ '@/views/app/home/Home.vue'),
       },
     ],
@@ -26,7 +28,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'workspace',
-        meta: { login: true, module_id: 1000, min_access: 3 },
+        meta: { login: true },
         component: () => import(/* webpackChunkName: "workspace" */ '@/views/app/workspace/Workspace.vue'),
       },
     ],
@@ -38,8 +40,22 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'favorite',
-        meta: { login: true, module_id: 1000, min_access: 3 },
+        meta: { login: true },
         component: () => import(/* webpackChunkName: "workspace" */ '@/views/app/favorite/Favorite.vue'),
+      },
+    ],
+  },
+
+  // External Layout
+  {
+    path: '/user',
+    component: externalLayout,
+    redirect: '/user/login',
+    children: [
+      {
+        path: 'login',
+        name: 'login',
+        component: () => import(/* webpackChunkName: "login" */ '@/views/external/user/Login.vue'),
       },
     ],
   },
@@ -50,4 +66,10 @@ const router = createRouter({
   routes,
 })
 
+router.beforeEach(AuthGuard)
+
+router.afterEach((to) => {
+  // @ts-ignore
+  document.title = to.name ? `${to.name} - What ToDo` : 'What ToDo'
+})
 export default router

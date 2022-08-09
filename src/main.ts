@@ -10,6 +10,8 @@ import 'element-plus/dist/index.css'
 import '@/assets/scss/themes/light.scss'
 const app = createApp(App)
 
+store.dispatch('load_user')
+
 app.use(ElementPlus)
 app.use(store)
 app.use(router)
@@ -18,5 +20,3 @@ app.mount('#app')
 
 // custom global properties setup
 app.config.globalProperties.$_cloneDeep = require('lodash/cloneDeep')
-import api from './helper/api'
-app.config.globalProperties.$api = api
