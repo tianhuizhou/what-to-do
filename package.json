@@ -15,12 +15,14 @@
     "fuse.js": "^6.6.2",
     "lodash": "^4.17.21",
     "register-service-worker": "^1.7.2",
+    "uuid": "^8.3.2",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
     "vuedraggable": "^4.1.0",
     "vuex": "^4.0.0"
   },
   "devDependencies": {
+    "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "@vue/cli-plugin-babel": "^5.0.8",

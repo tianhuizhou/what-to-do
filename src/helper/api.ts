@@ -1,43 +1,58 @@
-console.log('asdfasdfadsf')
-/* Firebase config */
-// Import the functions you need from the SDKs you need
-import { initializeApp } from 'firebase/app'
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: process.env.VUE_APP_FB_API_KEY,
-  authDomain: process.env.VUE_APP_FB_AUTH_DOMAIN,
-  databaseURL: process.env.VUE_APP_FB_DATABASE_URL,
-  projectId: process.env.VUE_APP_FB_PROJECT_ID,
-  storageBucket: process.env.VUE_APP_FB_STORAGE_BUCKET,
-  messagingSenderId: process.env.VUE_APP_FB_MSG_SENDER_ID,
-  appId: process.env.VUE_APP_FB_APP_ID,
-  measurementId: process.env.VUE_APP_FB_MEASUREMENT_ID,
-}
-
-// Initialize Firebase
-const fb = initializeApp(firebaseConfig)
-
-import { collection, query, where } from 'firebase/firestore'
-import { getAuth, signOut, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
+import app from './firebase_init'
+import { Board, Project } from './types'
+import { collection, query, where, getFirestore, getDocs } from 'firebase/firestore'
+import { getAuth, signOut, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { UserCredential } from '@firebase/auth'
+import { QuerySnapshot } from '@firebase/firestore'
 
-/* Firebase Authentication */
-const auth = getAuth(fb)
-
-abstract class API {
+abstract class FirebaseAPI {
   abstract login(username: string, password: string): Promise<UserCredential>
   abstract logout(): Promise<void>
+  abstract loginByGoogleOAuth(): Promise<UserCredential>
+  abstract getAllProjects(): Promise<Project[]>
 }
 
+const db = getFirestore(app)
+const auth = getAuth(app)
 export default {
+  /* User Authentication */
   login(username, password) {
     return signInWithEmailAndPassword(auth, username, password)
   },
   logout() {
     return signOut(auth)
   },
-} as API
+  loginByGoogleOAuth() {
+    const provider = new GoogleAuthProvider()
+    return signInWithPopup(auth, provider)
+  },
+
+  /* Get data once */
+  getAllProjects() {
+    return new Promise<Project[]>((resolve, reject) => {
+      getDocs(collection(db, 'projects'))
+        .then((resp) => {
+          const result: Project[] = []
+          resp.forEach((doc) => {
+            const data = doc.data()
+            result.push({
+              'uuid': data.uuid,
+              'name': data.name,
+              'favorite': data.favorite,
+              'created_at': data.created_at,
+              'updated_at': data.updated_at,
+              'boards': data.boards,
+              'users': data.users,
+            })
+          })
+          resolve(result)
+        })
+        .catch(() => {
+          reject({ 'error': 'Firebase API error' })
+        })
+    })
+  },
+
+  /* Real time listener */
+  listenProject() {},
+} as FirebaseAPI

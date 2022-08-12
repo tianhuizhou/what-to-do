@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import appLayout from '@/views/app/AppView.vue'
 import externalLayout from '@/views/external/ExternalView.vue'
-import AuthGuard from '@/utils/auth_guard'
+import AuthGuard from '@/router/auth_guard'
 
 const routes: Array<RouteRecordRaw> = [
   // App Layout

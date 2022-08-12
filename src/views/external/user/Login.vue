@@ -9,7 +9,11 @@
         <div class="my-4">
           <h1>Welcome</h1>
 
-          <hr class="text-gray-300" />
+          <button type="button" class="btn btn-outline-secondary mt-2 w-100 fs-4" @click="loginWithGoogleAuth()">
+            Sign in with Google
+          </button>
+
+          <el-divider content-position="center"><span class="fw-bold">or</span></el-divider>
         </div>
 
         <form>
@@ -53,16 +57,35 @@
   // function
   const { setUser } = useMutations(['setUser'])
   const login = () => {
+    loading.value = true
     api.login(username.value, password.value).then(
       (resp) => {
-        setUser(JSON.stringify(resp.user))
-        ElMessage.success('Congrats, this is a success message.')
-        nextPage()
+        userLoggedIn(resp)
+        loading.value = false
       },
-      () => {
+      (err) => {
         ElMessage.error('Invalid email/password. Please try again.')
+        console.log(err)
+        loading.value = false
       },
     )
+  }
+  const loginWithGoogleAuth = () => {
+    api.loginByGoogleOAuth().then(
+      (resp) => {
+        userLoggedIn(resp)
+        console.log(resp)
+      },
+      (err) => {
+        console.log(err)
+      },
+    )
+  }
+  const userLoggedIn = (resp) => {
+    setUser(JSON.stringify(resp.user))
+    console.log(resp)
+    ElMessage.success('Congrats, this is a success message.')
+    nextPage()
   }
 
   /* Route */

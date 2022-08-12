@@ -1,6 +1,5 @@
-import store from '@/store/index'
+import store from '@/store'
 import { ElMessage } from 'element-plus'
-import { getAuth } from 'firebase/auth'
 
 export default (to: any, from: any, next: any) => {
   const is_logged = store.getters['is_logged']
