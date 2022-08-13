@@ -1,5 +1,5 @@
 <template>
-  <nav class="row fixed-top align-items-center px-3 mx-0">
+  <nav class="row fixed-top align-items-center mx-0">
     <div class="col-auto d-flex align-items-center menu-logo">
       <button class="btn btn-outline-secondary btn-circle border-0 opacity-50" @click="changeSideMenuStatus()">
         <i class="fir-navigation fw-bold text-dark" />

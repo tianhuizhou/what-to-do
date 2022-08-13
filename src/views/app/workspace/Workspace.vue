@@ -1,14 +1,22 @@
 <template>
-  Workspace
-  <div v-loading="loading" class="card-header">
-    <el-popover placement="right" :width="400" trigger="click">
-      <template #reference> Workspace </template>
-    </el-popover>
+  <div>
+    <PageHeader title="Workspace">
+      <template v-slot:right>
+        <el-button plain>Filter</el-button>
+        <el-button plain class="mx-0">Sort by</el-button>
+        <el-button-group>
+          <el-button type="default" plain>Me</el-button>
+          <el-button type="default" plain>Assignees</el-button>
+        </el-button-group>
+      </template>
+    </PageHeader>
+    <div v-loading="loading" class="card-header"></div>
+    <pre>{{ project_list }}</pre>
   </div>
-  <pre>{{ project_list }}</pre>
 </template>
 
 <script lang="ts" setup>
+  import PageHeader from '@/components/common/PageHeader.vue'
   import { onMounted, ref } from 'vue'
   import api from '@/helper/api'
   import { Project } from '@/helper/types'
@@ -29,7 +37,7 @@
       })
   }
   onMounted(() => {
-    getAllProjects()
+    //getAllProjects()
   })
 </script>
 

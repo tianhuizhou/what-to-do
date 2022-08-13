@@ -12,8 +12,7 @@
       @select="selectMenuItem($event)"
     >
       <el-menu-item index="favorite" class="my-2">
-        <i class="fir-star" />
-        <span class="fw-bold ps-3">Favorite</span>
+        <i class="fir-star" /><span class="fw-bold ps-3">Favorite</span>
       </el-menu-item>
 
       <el-menu-item index="home" class="my-2">

@@ -2,13 +2,13 @@
   <TopNav />
   <div class="app-container">
     <SideBar />
-    <main class="card bg-main">
+    <main class="">
       <el-scrollbar>
         <slot> </slot>
       </el-scrollbar>
     </main>
   </div>
-  <Footer />
+  <!--  <Footer />-->
 </template>
 
 <script lang="ts" setup>

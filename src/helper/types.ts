@@ -32,4 +32,19 @@ interface User {
   name: string
   uid: string
 }
-export { Project, Board, Task }
+
+interface FilterProps {
+  [key: string]: {
+    type: string
+    options: Array<{ value: string; label: string }>
+    label: string
+    placeholder: string
+    multiple: boolean
+    default: string | string[]
+  }
+}
+
+interface Filter {
+  [key: string]: string | string[]
+}
+export { Project, Board, Task, FilterProps, Filter }

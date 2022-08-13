@@ -16,8 +16,8 @@ $navbar-height-lg: 64px;
 $navbar-height-md: 50px;
 $navbar-height-xs: 45px;
 
-$navbar-menu-logo-width: 256px;
-$sidebar-menu-collapse-width: 60px;
+$navbar-menu-logo-width: 297px;
+$sidebar-menu-collapse-width: 72px;
 
 $main-margin: 60px;
 $main-margin-lg: 40px;
@@ -80,7 +80,7 @@ html {
   --separator-color: #{$separator-color};
 
   --bs-primary-light: #{$primary-light};
-  --bs-body-bg: #ffffff!important;
+  --bs-body-bg: #f9fafb!important;
 }
 
 #root {
@@ -88,10 +88,8 @@ html {
 }
 
 body {
-
   &.background {
     height: 100%;
-
     main {
       margin: 0 !important;
       height: 100%;
@@ -162,7 +160,7 @@ body.default-transition .sidebar {
 nav {
   width: 100%;
   height: $navbar-height;
-  border-bottom: 1px solid $gray-100;
+  border-bottom: 1px solid #e9ebf0;
   background: $white;
   .menu-logo {
     width: $navbar-menu-logo-width;
@@ -189,28 +187,35 @@ nav {
 }
 
 .app-container {
-  padding-top: $navbar-height + 10px;
+  padding-top: $navbar-height;
   display: flex;
-  //flex-wrap: wrap;
+  height: 100%;
 }
 
 /* Main */
 main {
-  margin-right: $main-margin + 20;
   width: 100%;
   @include respond-below(xs) {
     margin-right: 0;
   }
   box-shadow: none!important;
-  padding: 20px;
 }
 
 .sidebar {
   display: inline-block;
   min-width: $navbar-menu-logo-width;
   width: $navbar-menu-logo-width;
-  margin-right: 16px;
-  min-height: 70vh;
+  overflow: hidden;
+  border-right: 1px solid #e9ebf0;
+  background: $white;
+  .btn:hover {
+    box-shadow: 0 5px 5px 0 $gray-400, 0 1px 3px 1px $gray-200
+  }
+
+  &.is-collapse {
+    min-width: $sidebar-menu-collapse-width;
+    width: $sidebar-menu-collapse-width;
+  }
 }
 
 body.default-transition main {
@@ -220,11 +225,12 @@ body.default-transition main {
 body {
   min-height: 100%;
   position: relative;
-  padding-bottom: 75px;
-
-  @include respond-below(xs) {
-    padding-bottom: 60px;
-  }
+  height: 100vh;
+  //padding-bottom: 75px;
+  //
+  //@include respond-below(xs) {
+  //  padding-bottom: 60px;
+  //}
 
   &.no-footer {
     padding-bottom: initial;
@@ -237,7 +243,7 @@ body {
 footer {
   padding-top: 1.7rem;
   padding-bottom: 1.7rem;
-  border-top: 1px solid $separator-color;
+  border-top: 1px solid #e9ebf0;
   width: 100%;
   position: absolute;
   bottom: 0;
