@@ -1,43 +1,42 @@
 <template>
-  <div>
-    <PageHeader title="Workspace">
-      <template v-slot:right>
-        <el-button plain>Filter</el-button>
-        <el-button plain class="mx-0">Sort by</el-button>
-        <el-button-group>
-          <el-button type="default" plain>Me</el-button>
-          <el-button type="default" plain>Assignees</el-button>
-        </el-button-group>
-      </template>
-    </PageHeader>
-    <div v-loading="loading" class="card-header"></div>
-    <pre>{{ project_list }}</pre>
-  </div>
+  <PageHeader title="Workspace">
+    <template v-slot:right>
+      <el-button plain>Filter</el-button>
+      <el-button plain class="mx-0">Sort by</el-button>
+      <el-button-group>
+        <el-button type="default" plain>Me</el-button>
+        <el-button type="default" plain>Assignees</el-button>
+      </el-button-group>
+    </template>
+  </PageHeader>
+  <div v-loading="loading" class="card-header"></div>
+  <pre>{{ project_list }}</pre>
 </template>
 
 <script lang="ts" setup>
   import PageHeader from '@/components/common/PageHeader.vue'
   import { onMounted, ref } from 'vue'
   import api from '@/helper/api'
-  import { Project } from '@/helper/types'
+  import { useGetters, useMutations, useActions } from '@/helper/vuex'
 
   let loading = ref(false)
 
-  let project_list = ref<Project[]>([])
-  function getAllProjects() {
+  /* Vuex */
+  // vuex getter functions
+  const { list: project_list } = useGetters(['list'], 'projects')
+  const { load: loadProjects } = useActions(['load'], 'projects')
+
+  // eslint-disable-next-line no-undef
+  // let project_list = ref<Project[]>([])
+  function loadData() {
     loading.value = true
-    api
-      .getAllProjects()
-      .then((resp) => {
-        console.log(resp)
-        project_list.value = [...resp]
-      })
-      .finally(() => {
-        loading.value = false
-      })
+    loadProjects().finally(() => {
+      loading.value = false
+    })
   }
   onMounted(() => {
-    //getAllProjects()
+    loadData()
+    api.getProjectRealtime('m217xIKXrwswXF1BSxzS')
   })
 </script>
 

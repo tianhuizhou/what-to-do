@@ -1,15 +1,17 @@
 import app from './firebase_init'
-import { Board, Project } from './types'
-import { collection, query, where, getFirestore, getDocs } from 'firebase/firestore'
-import { getAuth, signOut, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { collection, doc, getDoc, getDocs, getFirestore, onSnapshot } from 'firebase/firestore'
+import { getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth'
 import { UserCredential } from '@firebase/auth'
-import { QuerySnapshot } from '@firebase/firestore'
+import firebase from 'firebase/compat'
+import Unsubscribe = firebase.Unsubscribe
 
 abstract class FirebaseAPI {
   abstract login(username: string, password: string): Promise<UserCredential>
   abstract logout(): Promise<void>
   abstract loginByGoogleOAuth(): Promise<UserCredential>
-  abstract getAllProjects(): Promise<Project[]>
+  abstract getAllProjects(): Promise<{ [key: string | number]: Project }>
+  abstract getProjectById(project_id: string): Promise<Project>
+  abstract getProjectRealtime(project_id: string): Unsubscribe
 }
 
 const db = getFirestore(app)
@@ -27,23 +29,22 @@ export default {
     return signInWithPopup(auth, provider)
   },
 
-  /* Get data once */
+  /* Projects */
   getAllProjects() {
-    return new Promise<Project[]>((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       getDocs(collection(db, 'projects'))
         .then((resp) => {
-          const result: Project[] = []
+          const result: { [key: string | number]: Project } = {}
           resp.forEach((doc) => {
             const data = doc.data()
-            result.push({
-              'uuid': data.uuid,
+            result[doc.id] = {
+              'id': doc.id,
               'name': data.name,
-              'favorite': data.favorite,
-              'created_at': data.created_at,
-              'updated_at': data.updated_at,
+              'description': data.description,
+              'visibility': data.visibility,
               'boards': data.boards,
-              'users': data.users,
-            })
+              'user': data.users,
+            }
           })
           resolve(result)
         })
@@ -53,6 +54,11 @@ export default {
     })
   },
 
-  /* Real time listener */
-  listenProject() {},
+  /* Realtime listener */
+  getProjectRealtime(project_id: string) {
+    const doc_ref = doc(db, 'projects', project_id)
+    return onSnapshot(doc_ref, (doc) => {
+      console.log(' data: ', doc.data())
+    })
+  },
 } as FirebaseAPI

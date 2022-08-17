@@ -111,7 +111,6 @@
 <script lang="ts">
   import { computed, defineEmits, onMounted, reactive, ref, watch } from 'vue'
   import { cloneDeep } from 'lodash'
-  import { FilterProps, Filter } from '@/helper/types'
 
   export default {
     props: {
@@ -123,7 +122,7 @@
       const shortcuts = [
         {
           text: 'Next week',
-          onClick(picker) {
+          onClick(picker: any) {
             const end = new Date()
             const start = new Date()
             end.setTime(start.getTime() + 3600 * 1000 * 24 * 7)
@@ -132,7 +131,7 @@
         },
         {
           text: 'Next month',
-          onClick(picker) {
+          onClick(picker: any) {
             const end = new Date()
             const start = new Date()
             end.setTime(start.getTime() + 3600 * 1000 * 24 * 30)
