@@ -40,43 +40,31 @@
   </nav>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
   import api from '@/helper/api'
-  import { defineComponent } from 'vue'
   import { useMutations } from '@/helper/vuex'
   import { useRouter } from 'vue-router'
 
-  export default defineComponent({
-    setup() {
-      // Menu
-      const menuClicked = (command: string) => {
-        switch (command) {
-          case 'logout':
-            logoutUser()
-            return
-          default:
-            console.log(command)
-        }
-      }
+  // Menu
+  const menuClicked = (command: string) => {
+    switch (command) {
+      case 'logout':
+        logoutUser()
+        return
+      default:
+        console.log(command)
+    }
+  }
 
-      const router = useRouter()
-      const logoutUser = () => {
-        api.logout().finally(() => {
-          removeUser()
-          router.replace({ path: '/user/login' as string })
-        })
-      }
+  const router = useRouter()
+  const logoutUser = () => {
+    api.logout().finally(() => {
+      removeUser()
+      router.replace({ path: '/user/login' as string })
+    })
+  }
 
-      /* Vuex */
-      //vuex mutations
-      const { changeSideMenuStatus, removeUser } = useMutations(['changeSideMenuStatus', 'removeUser'])
-
-      return {
-        // function
-        menuClicked,
-        // vuex
-        changeSideMenuStatus,
-      }
-    },
-  })
+  /* Vuex */
+  //vuex mutations
+  const { changeSideMenuStatus, removeUser } = useMutations(['changeSideMenuStatus', 'removeUser'])
 </script>

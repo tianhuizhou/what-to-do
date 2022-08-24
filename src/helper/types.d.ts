@@ -18,7 +18,6 @@ declare interface Task {
   id?: string
   name: string
   priority: string
-  state: string
   description?: string
 }
 

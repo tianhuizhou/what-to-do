@@ -1,21 +1,21 @@
 import app from './firebase_init'
-import { collection, doc, getDoc, getDocs, getFirestore, onSnapshot } from 'firebase/firestore'
+import { collection, doc, getDocs, getFirestore, onSnapshot } from 'firebase/firestore'
 import { getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth'
 import { UserCredential } from '@firebase/auth'
-import firebase from 'firebase/compat'
-import Unsubscribe = firebase.Unsubscribe
+import { DocumentData, DocumentReference, Unsubscribe } from '@firebase/firestore'
+import { Ref } from 'vue'
 
-abstract class FirebaseAPI {
-  abstract login(username: string, password: string): Promise<UserCredential>
-  abstract logout(): Promise<void>
-  abstract loginByGoogleOAuth(): Promise<UserCredential>
-  abstract getAllProjects(): Promise<{ [key: string | number]: Project }>
-  abstract getProjectById(project_id: string): Promise<Project>
-  abstract getProjectRealtime(project_id: string): Unsubscribe
+interface FirebaseAPI {
+  login(username: string, password: string): Promise<UserCredential>
+  logout(): Promise<void>
+  loginByGoogleOAuth(): Promise<UserCredential>
+  getAllProjects(): Promise<{ [key: string | number]: Project }>
+  getProjectRealtimeRef(project_id: string, data_ref: Ref): Unsubscribe
 }
 
 const db = getFirestore(app)
 const auth = getAuth(app)
+
 export default {
   /* User Authentication */
   login(username, password) {
@@ -55,10 +55,18 @@ export default {
   },
 
   /* Realtime listener */
-  getProjectRealtime(project_id: string) {
+  getProjectRealtimeRef(project_id: string, data_ref) {
     const doc_ref = doc(db, 'projects', project_id)
     return onSnapshot(doc_ref, (doc) => {
-      console.log(' data: ', doc.data())
+      const data = doc.data()
+      data_ref.value = {
+        'id': doc.id,
+        'name': data?.name,
+        'description': data?.description,
+        'visibility': data?.visibility,
+        'boards': data?.boards || [],
+        'user': data?.users || [],
+      }
     })
   },
 } as FirebaseAPI

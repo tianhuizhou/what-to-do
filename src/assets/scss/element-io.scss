@@ -1209,11 +1209,11 @@ $--font-weight-primary: $font-weight-normal;
 
 nav {
   .el-input__wrapper {
-    background-color: $light;
-    box-shadow: none;
+    background-color: #f5f6f8;
+    //box-shadow: none;
   }
   .el-input__wrapper.is-focus {
-    background-color: $white;
-    box-shadow: 0 1px 1px 0 $gray-400, 0 1px 3px 1px $gray-200
+    //background-color: $white;
+    //box-shadow: 0 1px 1px 0 $gray-400, 0 1px 3px 1px $gray-200
   }
 }

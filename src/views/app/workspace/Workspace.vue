@@ -1,33 +1,81 @@
 <template>
-  <PageHeader title="Workspace">
-    <template v-slot:right>
-      <el-button plain>Filter</el-button>
-      <el-button plain class="mx-0">Sort by</el-button>
-      <el-button-group>
-        <el-button type="default" plain>Me</el-button>
-        <el-button type="default" plain>Assignees</el-button>
-      </el-button-group>
-    </template>
-  </PageHeader>
-  <div v-loading="loading" class="card-header"></div>
-  <pre>{{ project_list }}</pre>
+  <div>
+    <PageHeader title="Workspace">
+      <template v-slot:right>
+        <el-button plain>Filter</el-button>
+        <el-button plain class="mx-0">Sort by</el-button>
+        <el-button-group>
+          <el-button type="default" plain>Me</el-button>
+          <el-button type="default" plain>Assignees</el-button>
+        </el-button-group>
+      </template>
+    </PageHeader>
+
+    <div v-if="realtime_data.boards">
+      <el-scrollbar>
+        <Draggable
+          class="d-flex gap-4 main-content"
+          handle=".border-draggable"
+          :list="realtime_data.boards"
+          group="board"
+        >
+          <template #item="{ element }">
+            <Board :data="element">
+              <template #task-list>
+                <Draggable class="mt-5" :list="element.tasks" group="task">
+                  <template #item="{ element }">
+                    <Task :data="element" class="my-2" />
+                  </template>
+                </Draggable>
+              </template>
+            </Board>
+          </template>
+        </Draggable>
+      </el-scrollbar>
+    </div>
+    <pre>{{ realtime_data }}</pre>
+  </div>
 </template>
 
 <script lang="ts" setup>
   import PageHeader from '@/components/common/PageHeader.vue'
-  import { onMounted, ref } from 'vue'
+  import Draggable from 'vuedraggable'
+  import Board from '@/components/common/Board.vue'
+  import Task from '@/components/common/Task.vue'
   import api from '@/helper/api'
-  import { useGetters, useMutations, useActions } from '@/helper/vuex'
 
-  let loading = ref(false)
+  import { onMounted, ref, computed, reactive, onUnmounted } from 'vue'
+  import { useGetters, useMutations, useActions } from '@/helper/vuex'
+  import { useRoute } from 'vue-router'
+  import { Unsubscribe } from '@firebase/firestore'
+
+  // route
+  const route = useRoute()
+  const project_id = computed<string>(() => {
+    return route.params.id as string
+  })
+
+  let list1 = ref([
+    { name: 'John', id: 1 },
+    { name: 'Joao', id: 2 },
+    { name: 'Jean', id: 3 },
+    { name: 'Gerard', id: 4 },
+  ])
+  let list2 = ref([
+    { name: 'Juan', id: 5 },
+    { name: 'Edgard', id: 6 },
+    { name: 'Johnson', id: 7 },
+  ])
 
   /* Vuex */
   // vuex getter functions
-  const { list: project_list } = useGetters(['list'], 'projects')
   const { load: loadProjects } = useActions(['load'], 'projects')
 
   // eslint-disable-next-line no-undef
-  // let project_list = ref<Project[]>([])
+  const realtime_data = ref<Partial<Project>>({})
+  let unsub: Unsubscribe | null = null
+
+  let loading = ref(false)
   function loadData() {
     loading.value = true
     loadProjects().finally(() => {
@@ -36,7 +84,11 @@
   }
   onMounted(() => {
     loadData()
-    api.getProjectRealtime('m217xIKXrwswXF1BSxzS')
+    // start listener
+    unsub = api.getProjectRealtimeRef(project_id.value, realtime_data)
+  })
+  onUnmounted(() => {
+    if (unsub) unsub()
   })
 </script>
 

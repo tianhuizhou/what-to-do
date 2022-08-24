@@ -26,7 +26,7 @@ const routes: Array<RouteRecordRaw> = [
     component: appLayout,
     children: [
       {
-        path: '',
+        path: ':id',
         name: 'workspace',
         meta: { login: true },
         component: () => import(/* webpackChunkName: "workspace" */ '@/views/app/workspace/Workspace.vue'),

@@ -1,4 +1,8 @@
 module.exports = {
+  devServer: {
+    hot: true,
+    port: 8080,
+  },
   publicPath: process.env.BASE_URL || '/',
   lintOnSave: false,
 
@@ -53,18 +57,6 @@ module.exports = {
             name: 'chunk_styles',
             test: /[\\/]src[\\/]assets[\\/]scss(.*)/,
             priority: 15,
-            reuseExistingChunk: true,
-          },
-          cytoscape: {
-            name: 'chunk_cytoscape',
-            test: /[\\/]node_modules[\\/]cytoscape(.*)/,
-            priority: 20,
-            reuseExistingChunk: true,
-          },
-          pdfjs: {
-            name: 'chunk_pdfjs',
-            test: /[\\/]node_modules[\\/]pdfjs(.*)/,
-            priority: 20,
             reuseExistingChunk: true,
           },
           common: {
