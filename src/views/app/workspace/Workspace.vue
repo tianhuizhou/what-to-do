@@ -27,6 +27,8 @@
                     <Task :data="element" class="my-2" />
                   </template>
                 </Draggable>
+
+                <button class="btn btn-sm btn-link px-0"><i class="fir-add" />New task</button>
               </template>
             </Board>
           </template>
@@ -54,18 +56,6 @@
   const project_id = computed<string>(() => {
     return route.params.id as string
   })
-
-  let list1 = ref([
-    { name: 'John', id: 1 },
-    { name: 'Joao', id: 2 },
-    { name: 'Jean', id: 3 },
-    { name: 'Gerard', id: 4 },
-  ])
-  let list2 = ref([
-    { name: 'Juan', id: 5 },
-    { name: 'Edgard', id: 6 },
-    { name: 'Johnson', id: 7 },
-  ])
 
   /* Vuex */
   // vuex getter functions

@@ -1,6 +1,7 @@
 module.exports = {
   devServer: {
     hot: true,
+    host: 'localhost',
     port: 8080,
   },
   publicPath: process.env.BASE_URL || '/',

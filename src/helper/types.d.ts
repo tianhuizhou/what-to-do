@@ -11,6 +11,7 @@ declare interface Project {
 declare interface Board {
   id?: string
   name: string
+  theme?: string
   tasks: Task[]
 }
 

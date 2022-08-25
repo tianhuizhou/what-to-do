@@ -12,6 +12,10 @@
     background-color: #f9fafb;
 }
 
+.card {
+    box-shadow: 0 1px 2px 1px rgb(0 0 0 / 7%)
+}
+
 .card .card-body.card-body-login {
     padding: 4rem 4.5rem;
 }
@@ -28,4 +32,8 @@
 .card-border {
     width: 265px;
     padding: 8px 12px 8px 12px;
+}
+
+.app-board {
+    height: 75vh;
 }
