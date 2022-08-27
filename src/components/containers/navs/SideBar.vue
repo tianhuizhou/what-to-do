@@ -1,92 +1,91 @@
 <template>
-  <aside class="sidebar" :class="{ 'is-collapse': is_collapse }">
-    <div class="d-flex justify-content-start align-items-center ms-2 mb-2" style="height: 70px">
-      <button class="btn btn-lg btn-compose" :class="{ 'ps-2': !is_collapse, 'px-3 py-0': is_collapse }" @click="">
-        <i class="fis-organization" /> <span v-if="!is_collapse" class="ps-2">Organization</span>
-      </button>
+  <div class="sidebar" @click.stop="() => {}">
+    <div class="main-menu">
+      <el-scrollbar>
+        <ul class="list-unstyled">
+          <li
+            v-for="(item, index) in menuItems"
+            :class="{
+              'active': viewingParentMenu === item.id,
+            }"
+            class="text-center"
+            :key="`parent_${index}`"
+            :data-flag="item.id"
+          >
+            <div>
+              <router-link @click="changeSelectedParentHasNoSubmenu(item.id)" :to="item.to">
+                <i :class="item.icon" />
+                {{ item.label }}
+              </router-link>
+            </div>
+          </li>
+        </ul>
+      </el-scrollbar>
     </div>
-    <el-menu
-      :default-active="selected_item"
-      :collapse="is_collapse"
-      :collapse-transition="false"
-      @select="selectMenuItem($event)"
-      class=""
-    >
-      <!--      <el-menu-item index="favorite" class="my-2">-->
-      <!--        <i class="fir-star" /><span class="fw-bold ps-3">Favorite</span>-->
-      <!--      </el-menu-item>-->
-
-      <el-menu-item index="/home" class="my-2">
-        <i class="fir-home" />
-        <span class="fw-bold ps-3">Home</span>
-      </el-menu-item>
-
-      <!--      <el-menu-item index="workspace" class="my-2">-->
-      <!--        <i class="fir-grid" />-->
-      <!--        <span class="fw-bold ps-3">Workspace</span>-->
-      <!--      </el-menu-item>-->
-    </el-menu>
-
-    <el-collapse>
-      <el-collapse-item name="favorite">
-        <template #title>
-          <div class="flex-grow-1 fw-bold px-4 h4 mb-0">Favorite</div>
-        </template>
-
-        <p class="px-4 pt-2 pb-3 h6 mb-0">You don't have any Favorites yet. Learn how to create one or hide this.</p>
-      </el-collapse-item>
-      <el-collapse-item name="workspace">
-        <template #title>
-          <div class="flex-grow-1 fw-bold px-4">Workspace</div>
-        </template>
-
-        <el-menu
-          :default-active="selected_item"
-          :collapse="is_collapse"
-          :collapse-transition="false"
-          @select="selectMenuItem($event)"
-          class=""
-        >
-          <el-menu-item :index="`/workspace/${item.id}`" class="my-2" v-for="item in project_list" :key="item.id">
-            <i class="fir-grid" />
-            <span class="fw-bold ps-3">{{ item.name }}</span>
-          </el-menu-item>
-        </el-menu>
-      </el-collapse-item>
-    </el-collapse>
-  </aside>
+  </div>
 </template>
 
 <script lang="ts" setup>
-  import { onMounted, watch, computed } from 'vue'
+  import { onMounted, watch, ref } from 'vue'
   import { useRouter, useRoute } from 'vue-router'
   import { useGetters, useMutations, useActions } from '@/helper/vuex'
 
-  /* Side Menu */
-  const router = useRouter()
-  const selectMenuItem = (item: string): void => {
-    router.push({ path: item })
-    changeSelectedMenuItem(item.toLowerCase())
-  }
-  /* Vuex */
-  // vuex getter functions
-  const { getMenuType: is_collapse, getSelectedMenuItem: selected_item } = useGetters([
-    'getMenuType',
-    'getSelectedMenuItem',
+  const menuItems = ref([
+    { 'id': 'home', 'label': 'Home', 'icon': 'fir-home', 'to': '/home' },
+    { 'id': 'workspace', 'label': 'Workspace', 'icon': 'fir-apps', 'to': '/workspace' },
   ])
-  const { changeSelectedMenuItem } = useMutations(['changeSelectedMenuItem'])
-  const { list: project_list } = useGetters(['list'], 'projects')
-  const { load: loadProjects } = useActions(['load'], 'projects')
-  /* Life circle hooks */
+  const { getMenuType: menuType, getSelectedMenuHasSubItems: selectedMenuHasSubItems } = useGetters([
+    'getMenuType',
+    'getSelectedMenuHasSubItems',
+  ])
+  const { changeSelectedMenuHasSubItems, changeSideMenuStatus } = useMutations([
+    'changeSelectedMenuHasSubItems',
+    'changeSideMenuStatus',
+  ])
+
+  let viewingParentMenu = ref<string>('')
+
+  function changeSelectedParentHasNoSubmenu(parentMenu: string) {
+    viewingParentMenu.value = parentMenu
+    changeSelectedMenuHasSubItems(false)
+    changeSideMenuStatus({
+      step: 0,
+      classNames: menuType.value,
+      selectedMenuHasSubItems: false,
+    })
+  }
+
   const route = useRoute()
+  function selectMenu() {
+    const currentParentUrl = route.path.split('/').filter((x) => x !== '')[0]
+    if (currentParentUrl) {
+      viewingParentMenu.value = currentParentUrl.toLowerCase()
+    } else {
+      viewingParentMenu.value = 'home'
+    }
+  }
+
+  onMounted(() => {
+    selectMenu()
+  })
+
   watch(
-    () => route.name,
+    () => route.path,
     (to, from) => {
-      if (to !== from) changeSelectedMenuItem(to)
+      if (to !== from) {
+        const toParentUrl = to.split('/').filter((x) => x !== '')[0]
+        if (toParentUrl) {
+          viewingParentMenu.value = toParentUrl.toLowerCase()
+        } else {
+          viewingParentMenu.value = 'home'
+        }
+        selectMenu()
+        changeSideMenuStatus({
+          step: 0,
+          classNames: menuType.value,
+          selectedMenuHasSubItems: selectedMenuHasSubItems.value,
+        })
+      }
     },
   )
-  onMounted(() => {
-    if (selected_item !== route.name) changeSelectedMenuItem(route.name)
-    loadProjects()
-  })
 </script>

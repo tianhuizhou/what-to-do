@@ -1,14 +1,14 @@
 <template>
-  <TopNav />
-  <div class="app-container">
+  <div id="app-container" :class="getMenuType">
+    <TopNav />
     <SideBar />
-    <main class="">
-      <el-scrollbar>
-        <slot> </slot>
-      </el-scrollbar>
+    <main>
+      <div class="container-fluid" style="max-width: 1920px">
+        <slot></slot>
+      </div>
     </main>
+    <Footer />
   </div>
-  <!--  <Footer />-->
 </template>
 
 <script lang="ts" setup>
@@ -16,6 +16,9 @@
   import TopNav from '@/components/containers/navs/TopNav.vue'
   import SideBar from '@/components/containers/navs/SideBar.vue'
   import Footer from '@/components/containers/navs/Footer.vue'
+  import { useGetters } from '@/helper/vuex'
+
+  const { getMenuType } = useGetters(['getMenuType'])
 
   onMounted(() => {
     setTimeout(() => {

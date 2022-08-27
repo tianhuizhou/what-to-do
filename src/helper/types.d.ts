@@ -41,3 +41,9 @@ declare interface FilterProps {
 declare interface Filter {
   [key: string]: string | string[]
 }
+
+declare interface MenuState {
+  menuType: string
+  clickCount: number
+  selectedMenuHasSubItems: boolean
+}

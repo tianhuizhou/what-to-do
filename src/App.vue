@@ -5,9 +5,9 @@
 </template>
 
 <style lang="scss">
-  #app {
-    height: 100%;
-  }
+  //#app {
+  //  height: 100%;
+  //}
   //
   //nav {
   //  padding: 30px;

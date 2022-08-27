@@ -15,7 +15,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        name: 'home',
+        name: 'Home',
         meta: { login: true },
         component: () => import(/* webpackChunkName: "home" */ '@/views/app/home/Home.vue'),
       },
@@ -26,10 +26,16 @@ const routes: Array<RouteRecordRaw> = [
     component: appLayout,
     children: [
       {
-        path: ':id',
-        name: 'workspace',
+        path: '',
+        name: 'Workspace',
         meta: { login: true },
         component: () => import(/* webpackChunkName: "workspace" */ '@/views/app/workspace/Workspace.vue'),
+      },
+      {
+        path: ':id',
+        name: 'Workspace Details',
+        meta: { login: true },
+        component: () => import(/* webpackChunkName: "workspace" */ '@/views/app/workspace/WorkspaceDetails.vue'),
       },
     ],
   },
@@ -39,7 +45,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        name: 'favorite',
+        name: 'Favorite',
         meta: { login: true },
         component: () => import(/* webpackChunkName: "workspace" */ '@/views/app/favorite/Favorite.vue'),
       },
@@ -54,7 +60,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: 'login',
-        name: 'login',
+        name: 'Login',
         component: () => import(/* webpackChunkName: "login" */ '@/views/external/user/Login.vue'),
       },
     ],
