@@ -1,6 +1,6 @@
 <template>
-  <div class="app-task card card-border">
-    <div class="fs-6 fw-bolder text-muted mb-2">Workspace > Project12</div>
+  <div class="app-task card card-border cursor-pointer">
+    <div class="fs-6 fw-bolder text-muted mb-2">Workspace > {{ project_title }}</div>
 
     <div class="row align-items-center">
       <div class="col col-9 text-break">
@@ -60,10 +60,17 @@
 </template>
 
 <script setup lang="ts">
-  import { defineProps } from 'vue'
-  const props = defineProps<{
-    data: Task
-  }>()
+  import { defineProps, withDefaults } from 'vue'
+
+  withDefaults(
+    defineProps<{
+      data: Task
+      project_title?: string
+    }>(),
+    {
+      project_title: '',
+    },
+  )
 </script>
 
 <style scoped></style>

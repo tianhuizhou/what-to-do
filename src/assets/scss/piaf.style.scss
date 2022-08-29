@@ -115,7 +115,7 @@ $error-color: $danger;
 html {
   width: 100%;
   height: 100%;
-  background: $background-color;
+  background: #f9fafb;
 }
 
 :root {
@@ -165,7 +165,7 @@ body {
   //   font-size: 0.8rem;
   //   font-weight: 400;
   //   color: $primary-color;
-  //   background: $background-color;
+  // background-color: #f9fafb!important;
   //   margin: 0;
 
   &.background {

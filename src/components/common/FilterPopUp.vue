@@ -109,15 +109,16 @@
 </template>
 
 <script lang="ts">
-  import { computed, defineEmits, onMounted, reactive, ref, watch } from 'vue'
+  import { computed, defineComponent, onMounted, reactive, ref, watch } from 'vue'
   import { cloneDeep } from 'lodash'
 
-  export default {
+  export default defineComponent({
     props: {
       'value': { type: Boolean, default: false },
       'filter_props': { type: Object, required: true },
     },
-    setup(props: { value: boolean; filter_props: FilterProps }) {
+    emits: ['change', 'input'],
+    setup(props: { value: boolean; filter_props: FilterProps }, { emit }) {
       /* Constant and Emit event*/
       const shortcuts = [
         {
@@ -139,11 +140,12 @@
           },
         },
       ]
-      const emit = defineEmits(['change', 'input'])
 
       /* Variable */
       let filters_popup = ref<boolean>(props.value)
+      // eslint-disable-next-line no-undef
       let filter = reactive<Filter>({})
+      // eslint-disable-next-line no-undef
       let applied_filter = reactive<Filter>({})
       const applied_filters_count = computed(() => {
         let count = 0
@@ -167,6 +169,7 @@
       }
       const emitFilters = () => {
         // generate out_obj based on filters_prop
+        // eslint-disable-next-line no-undef
         let out_obj: Filter = {}
         for (const key in props.filter_props) {
           out_obj[key] = filter[key]
@@ -218,7 +221,7 @@
         props,
       }
     },
-  }
+  })
 </script>
 
 <style scoped></style>

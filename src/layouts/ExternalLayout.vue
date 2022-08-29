@@ -1,9 +1,11 @@
 <template>
-  <TopNavExternal />
-  <main class="app-container d-flex justify-content-center">
-    <slot> </slot>
-  </main>
-  <Footer />
+  <div id="root" class="menu-hidden">
+    <TopNavExternal />
+    <main class="app-container d-flex justify-content-center">
+      <slot> </slot>
+    </main>
+    <Footer />
+  </div>
 </template>
 
 <script lang="ts" setup>

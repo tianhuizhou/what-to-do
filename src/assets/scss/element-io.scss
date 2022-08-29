@@ -27,7 +27,6 @@ $--font-weight-primary: $font-weight-normal;
   --el-border-color-light: #{$gray-300};
 
   // Inputs
-
   --el-border-color-base: #{$input-border-color};
   --el-border-color-hover: #{$input-border-color};
 
@@ -101,6 +100,14 @@ $--font-weight-primary: $font-weight-normal;
 }
 
 // Input
+.el-input__wrapper, .el-input__wrapper:hover {
+  box-shadow: 0 0 0 2px var(--el-input-border-color) inset;
+}
+.el-input__wrapper.is-focus {
+  box-shadow: 0 0 0 2px var(--el-input-focus-border-color) inset;
+}
+
+
 .el-input__inner,
 .el-textarea__inner {
   height: $input-height;
@@ -1204,16 +1211,5 @@ $--font-weight-primary: $font-weight-normal;
     background-color: #d2e3fc;
     border-radius: 0 3px 3px 0;
     border-left: 3px solid $primary;
-  }
-}
-
-nav {
-  .el-input__wrapper {
-    background-color: #f5f6f8;
-    //box-shadow: none;
-  }
-  .el-input__wrapper.is-focus {
-    //background-color: $white;
-    //box-shadow: 0 1px 1px 0 $gray-400, 0 1px 3px 1px $gray-200
   }
 }

@@ -29,7 +29,7 @@ const routes: Array<RouteRecordRaw> = [
         path: '',
         name: 'Workspace',
         meta: { login: true },
-        component: () => import(/* webpackChunkName: "workspace" */ '@/views/app/workspace/Workspace.vue'),
+        component: () => import(/* webpackChunkName: "workspace" */ '@/views/app/workspace/WorkspaceList.vue'),
       },
       {
         path: ':id',

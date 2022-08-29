@@ -4,6 +4,7 @@ declare interface Project {
   name: string
   visibility: string
   description?: string
+  favorite?: boolean
   boards: Board[]
   user: User[]
 }

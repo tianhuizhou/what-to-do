@@ -42,6 +42,7 @@ export default {
               'name': data.name,
               'description': data.description,
               'visibility': data.visibility,
+              'favorite': data.favorite,
               'boards': data.boards,
               'user': data.users,
             }
