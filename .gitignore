@@ -7,6 +7,7 @@ __snapshots__
 .env.local
 .env.*.local
 .env.dev
+.env.prod
 
 # Log files
 npm-debug.log*
