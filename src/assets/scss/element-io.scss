@@ -996,19 +996,19 @@ $--font-weight-primary: $font-weight-normal;
 }
 
 // Drawer
-
-.drawer-320 .el-drawer {
-  width: 320px !important;
-}
-.drawer-490 .el-drawer {
-  width: 490px !important;
-}
-
 .el-drawer,
 .app-menu {
   min-width: 320px;
   max-width: 490px;
   z-index: 3;
+
+  &.drawer-320 {
+    width: 320px !important;
+  }
+  &.drawer-490 {
+    width: 490px !important;
+  }
+
   .el-drawer__header {
     font-weight: $font-weight-semibold;
     font-size: $h2-font-size;
@@ -1071,8 +1071,8 @@ $--font-weight-primary: $font-weight-normal;
 
 .invalid {
   &.el-textarea textarea,
-  .el-input__inner {
-    border-color: $danger !important;
+  .el-input__wrapper {
+    --el-input-border-color: #ac070b !important;
   }
 }
 

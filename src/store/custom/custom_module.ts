@@ -111,7 +111,7 @@ class CustomModule implements Module<any, any> {
 
         state.promise
           .then(
-            (resp: object | null) => commit('loaded', resp),
+            (resp: { 'data': [] }) => commit('loaded', resp.data),
             (err: object | null) => console.error(err),
           )
           .finally(() => {

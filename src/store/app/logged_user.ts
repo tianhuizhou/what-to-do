@@ -5,9 +5,11 @@ interface User {
   photo_url?: string
   phone_number?: number
   expire_time?: number
+  token?: string
 }
 
 interface UserState {
+  token: string
   user: User
   expire_time: number
 }
@@ -16,6 +18,7 @@ const userModule = {
   state: <UserState>{
     user: {},
     expire_time: 0,
+    token: '',
   },
 
   getters: {
@@ -26,6 +29,9 @@ const userModule = {
     },
     user_data: (state: UserState) => {
       return state.user
+    },
+    log_token: (state: UserState) => {
+      return state.token
     },
   },
 
@@ -41,11 +47,13 @@ const userModule = {
         phone_number: original_user_data.providerData[0]?.phoneNumber,
       }
       state.expire_time = original_user_data.stsTokenManager.expirationTime || new Date().getTime() + 60 * 1000
+      state.token = original_user_data.stsTokenManager.accessToken
     },
     removeUser(state: UserState): void {
       localStorage.removeItem('WhatToDoUser')
       state.user = {}
       state.expire_time = 0
+      state.token = ''
     },
   },
   actions: {

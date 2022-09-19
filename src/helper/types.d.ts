@@ -2,11 +2,11 @@
 declare interface Project {
   id?: string
   name: string
-  visibility: string
+  visibility?: string
   description?: string
   favorite?: boolean
-  boards: Board[]
-  user: User[]
+  boards?: Board[]
+  // user: User[]
 }
 
 declare interface Board {

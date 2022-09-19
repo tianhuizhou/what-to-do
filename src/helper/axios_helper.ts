@@ -3,8 +3,8 @@ import type { AxiosRequestConfig, AxiosResponse, Method, ResponseType } from 'ax
 
 const axiosHelper = (
   url: string,
-  params: object,
-  body: object,
+  params: object | null,
+  body: object | null,
   method: Method,
   headers: object,
   responseType: ResponseType = 'json',

@@ -38,25 +38,37 @@
         </div>
       </div>
 
-      <div class="my-5 d-flex gap-3 flex-wrap">
+      <div class="my-5 d-flex gap-3 flex-wrap" v-loading="loading">
         <div
           class="card project-card bg-main d-flex flex-column justify-content-center cursor-pointer"
-          style="height: 100px; width: 300px"
+          @click="openProjectForm()"
         >
           <div class="text-center">Create new project</div>
         </div>
 
-        <ProjectCard v-for="project in project_list" :key="project.id" :data="project" />
+        <ProjectCard
+          v-for="project in project_list"
+          :key="project.id"
+          :data="project"
+          @delete="deleteProject(project.id)"
+        />
       </div>
     </div>
   </div>
+
+  <el-drawer v-model="drawer.is_show" custom-class="drawer-320 drawer-pe-none" append-to-body :with-header="false">
+    <ProjectForm :project_id="drawer.project_id" @close="drawer.is_show = false" />
+  </el-drawer>
 </template>
 
 <script lang="ts" setup>
-  import { onMounted, watch, ref, computed } from 'vue'
+  import { onMounted, watch, ref, computed, reactive } from 'vue'
   import { useGetters, useMutations, useActions } from '@/helper/vuex'
   import FilterPopUp from '@/components/common/FilterPopUp.vue'
   import ProjectCard from '@/components/common/ProjectCard.vue'
+  import ProjectForm from '@/components/common/ProjectForm.vue'
+  import api from '@/helper/api'
+  import { ElMessage } from 'element-plus'
 
   /* Filters */
   const filter_props = computed(() => {
@@ -94,19 +106,39 @@
   /* All Projects */
   const { list: project_list } = useGetters(['list'], 'projects')
   const { load: loadProjects } = useActions(['load'], 'projects')
-  function loadData() {
-    loading.value = true
-    loadProjects()
-      .then(() => projectsLoaded())
-      .catch(() => (loading.value = false))
-  }
-  function projectsLoaded() {
-    loading.value = false
-  }
 
   onMounted(() => {
-    loadData()
+    loading.value = true
+    loadProjects().finally(() => {
+      loading.value = false
+    })
   })
+
+  /* Upsert Project */
+  let drawer = reactive({
+    is_show: false,
+    project_id: null as number | null,
+  })
+  function openProjectForm(project_id: number | null = null) {
+    drawer.is_show = true
+    drawer.project_id = project_id
+  }
+
+  /* Delete Project */
+  const { delete: deleteProjectVuex } = useMutations(['delete'], 'projects')
+  function deleteProject(project_id: number) {
+    loading.value = true
+    api
+      .deleteProject(project_id)
+      .then(() => {
+        deleteProjectVuex({ 'id': project_id })
+        ElMessage.success('Delete project successfully')
+      })
+      .catch((err) => {
+        ElMessage.error(err.error)
+        console.error(err)
+      })
+  }
 </script>
 
 <style scoped></style>

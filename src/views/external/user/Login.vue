@@ -74,7 +74,6 @@
     api.loginByGoogleOAuth().then(
       (resp) => {
         userLoggedIn(resp)
-        console.log(resp)
       },
       (err) => {
         console.log(err)
@@ -83,7 +82,6 @@
   }
   const userLoggedIn = (resp) => {
     setUser(JSON.stringify(resp.user))
-    console.log(resp)
     ElMessage.success('Congrats, this is a success message.')
     nextPage()
   }
