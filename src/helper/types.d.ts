@@ -5,6 +5,7 @@ declare interface Project {
   visibility?: string
   description?: string
   favorite?: boolean
+  board_order?: number[]
   boards?: Board[]
   // user: User[]
 }
@@ -13,6 +14,8 @@ declare interface Board {
   id?: string
   name: string
   theme?: string
+  task_order?: number[]
+  project_id?: number
   tasks: Task[]
 }
 
@@ -21,6 +24,7 @@ declare interface Task {
   name: string
   priority: string
   description?: string
+  board_id?: number
 }
 
 declare interface User {

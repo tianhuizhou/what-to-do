@@ -1,19 +1,34 @@
 import axiosHelper from '@/helper/axios_helper'
 import app from './firebase_init'
-import { collection, doc, getDocs, getFirestore, onSnapshot } from 'firebase/firestore'
+import { doc, getFirestore, onSnapshot } from 'firebase/firestore'
 import { getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth'
 import { UserCredential } from '@firebase/auth'
-import { DocumentData, DocumentReference, Unsubscribe } from '@firebase/firestore'
+import { Unsubscribe } from '@firebase/firestore'
 import { Ref } from 'vue'
 
 interface FirebaseAPI {
+  /* Authentication */
   login(username: string, password: string): Promise<UserCredential>
   logout(): Promise<void>
   loginByGoogleOAuth(): Promise<UserCredential>
+  /* Projects */
   getAllProjects(): Promise<{ [key: string | number]: Project }>
   createProject(project: Project): Promise<{ 'data': Project[] }>
+  updateProject(project_id: number, project: Partial<Project>): Promise<{ 'data': Project }>
   deleteProject(project_id: number): Promise<{ 'msg': string }>
   getProjectRealtimeRef(project_id: string, data_ref: Ref): Unsubscribe
+  /* Boards */
+  createBoard(board: Board): Promise<{ 'data': Board[] }>
+  updateBoard(board_id: number, board: Partial<Board>): Promise<{ 'data': Board }>
+  deleteBoard(board_id: number): Promise<{ 'msg': string }>
+  /* Tasks */
+  createTask(task: Task): Promise<{ 'data': Task[] }>
+  updateTask(task_id: number, task: Partial<Task>): Promise<{ 'data': Task }>
+  moveTaskAcrossBoard(
+    task_id: number,
+    dto: { 'old_board_id': number; 'new_board_id': number; 'new_board_position': number },
+  ): Promise<{ 'msg': string }>
+  deleteTask(task_id: number): Promise<{ 'msg': string }>
 }
 
 const db = getFirestore(app)
@@ -50,7 +65,7 @@ export default {
     const url = `${APIURL}/projects`
     return axiosHelper(url, null, null, 'GET', getHeaders())
   },
-  createProject(project: Project) {
+  createProject(project) {
     const url = `${APIURL}/projects`
     const payload = {
       'name': project.name,
@@ -60,35 +75,87 @@ export default {
     }
     return axiosHelper(url, null, payload, 'POST', getHeaders())
   },
-  deleteProject(project_id: number) {
+  updateProject(project_id, project) {
+    const url = `${APIURL}/projects`
+    const params = { 'id': project_id }
+    const payload = {
+      'name': project.name,
+      'description': project.description,
+      'visibility': project.visibility,
+      'favorite': project.favorite,
+      'board_order': project.board_order,
+    }
+    return axiosHelper(url, params, payload, 'PUT', getHeaders())
+  },
+  deleteProject(project_id) {
     const url = `${APIURL}/projects`
     const params = { 'id': project_id }
     return axiosHelper(url, params, null, 'DELETE', getHeaders())
   },
-  // getAllProjects() {
-  //   return new Promise((resolve, reject) => {
-  //     getDocs(collection(db, 'projects'))
-  //       .then((resp) => {
-  //         const result: { [key: string | number]: Project } = {}
-  //         resp.forEach((doc) => {
-  //           const data = doc.data()
-  //           result[doc.id] = {
-  //             'id': doc.id,
-  //             'name': data.name,
-  //             'description': data.description,
-  //             'visibility': data.visibility,
-  //             'favorite': data.favorite,
-  //             'boards': data.boards,
-  //             'user': data.users,
-  //           }
-  //         })
-  //         resolve(result)
-  //       })
-  //       .catch(() => {
-  //         reject({ 'error': 'Firebase API error' })
-  //       })
-  //   })
-  // },
+
+  /* Boards */
+  createBoard(board) {
+    const url = `${APIURL}/boards`
+    const payload = {
+      'name': board.name,
+      'theme': board.theme,
+      'project_id': board.project_id,
+    }
+    return axiosHelper(url, null, payload, 'POST', getHeaders())
+  },
+  updateBoard(board_id, board) {
+    const url = `${APIURL}/boards`
+    const params = { 'id': board_id }
+    const payload = {
+      'name': board.name,
+      'theme': board.theme,
+      'task_order': board.task_order,
+    }
+    return axiosHelper(url, params, payload, 'PUT', getHeaders())
+  },
+  deleteBoard(board_id) {
+    const url = `${APIURL}/boards`
+    const params = { 'id': board_id }
+    return axiosHelper(url, params, null, 'DELETE', getHeaders())
+  },
+
+  /* Tasks */
+  createTask(task) {
+    const url = `${APIURL}/tasks`
+    const payload = {
+      'name': task.name,
+      'priority': task.priority,
+      'description': task.description,
+      'board_id': task.board_id,
+    }
+    return axiosHelper(url, null, payload, 'POST', getHeaders())
+  },
+  updateTask(task_id, task) {
+    const url = `${APIURL}/tasks`
+    const params = { 'id': task_id }
+    const payload = {
+      'name': task.name,
+      'priority': task.priority,
+      'description': task.description,
+    }
+    return axiosHelper(url, params, payload, 'PUT', getHeaders())
+  },
+  // If just try to move tasks to different position within the same board, using Endpoint updateBoard that passing the updated 'task_order'
+  moveTaskAcrossBoard(task_id, dto) {
+    const url = `${APIURL}/tasks`
+    const params = { 'id': task_id }
+    const payload = {
+      'old_board_id': dto.old_board_id,
+      'new_board_id': dto.new_board_id,
+      'new_board_position': dto.new_board_position,
+    }
+    return axiosHelper(url, params, payload, 'PUT', getHeaders())
+  },
+  deleteTask(task_id) {
+    const url = `${APIURL}/tasks`
+    const params = { 'id': task_id }
+    return axiosHelper(url, params, null, 'DELETE', getHeaders())
+  },
 
   /* Realtime listener */
   getProjectRealtimeRef(project_id: string, data_ref) {
