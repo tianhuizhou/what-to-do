@@ -88,7 +88,7 @@ export default {
   },
   deleteProject(project_id) {
     const url = `${APIURL}/projects/${project_id}`
-    return axiosHelper(url, null, {}, 'DELETE', getHeaders())
+    return axiosHelper(url, null, null, 'DELETE', getHeaders())
   },
 
   /* Boards */
@@ -112,7 +112,7 @@ export default {
   },
   deleteBoard(board_id) {
     const url = `${APIURL}/boards/${board_id}`
-    return axiosHelper(url, null, {}, 'DELETE', getHeaders())
+    return axiosHelper(url, null, null, 'DELETE', getHeaders())
   },
 
   /* Tasks */
@@ -147,7 +147,7 @@ export default {
   },
   deleteTask(task_id) {
     const url = `${APIURL}/tasks/${task_id}`
-    return axiosHelper(url, null, {}, 'DELETE', getHeaders())
+    return axiosHelper(url, null, null, 'DELETE', getHeaders())
   },
 
   /* Realtime listener */

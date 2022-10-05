@@ -175,10 +175,15 @@
     if (type === 'board') deleteBoard(id)
   }
   function deleteBoard(id: number) {
-    api.deleteBoard(id).catch((err) => {
-      console.error(err)
-      ElMessage.error('Failed to delete')
-    })
+    api
+      .deleteBoard(id)
+      .then(() => {
+        closeDialog()
+      })
+      .catch((err) => {
+        console.error(err)
+        ElMessage.error('Failed to delete')
+      })
   }
 
   /* Lifecycle */

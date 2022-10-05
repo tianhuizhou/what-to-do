@@ -14,7 +14,7 @@ const axiosHelper = (
       url: url,
       method: method,
       params: params,
-      data: body,
+      data: body || {},
       headers: headers,
       responseType: responseType,
     }
