@@ -1,26 +1,29 @@
 /* Global Interface */
 declare interface Project {
-  id?: string
+  id?: number
   name: string
   visibility?: string
   description?: string
   favorite?: boolean
   board_order?: number[]
   boards?: Board[]
+  session_uid?: string
+  created_at?: Date
+  updated_at?: Date
   // user: User[]
 }
 
 declare interface Board {
-  id?: string
+  id?: number
   name: string
   theme?: string
   task_order?: number[]
   project_id?: number
-  tasks: Task[]
+  tasks?: Task[]
 }
 
 declare interface Task {
-  id?: string
+  id?: number
   name: string
   priority: string
   description?: string

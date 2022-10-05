@@ -58,7 +58,9 @@
     "parserOptions": {
       "ecmaVersion": 2020
     },
-    "rules": {}
+    "rules": {
+      "no-undef": "off"
+    }
   },
   "prettier": {
     "semi": false,

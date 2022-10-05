@@ -76,8 +76,7 @@ export default {
     return axiosHelper(url, null, payload, 'POST', getHeaders())
   },
   updateProject(project_id, project) {
-    const url = `${APIURL}/projects`
-    const params = { 'id': project_id }
+    const url = `${APIURL}/projects/${project_id}`
     const payload = {
       'name': project.name,
       'description': project.description,
@@ -85,12 +84,11 @@ export default {
       'favorite': project.favorite,
       'board_order': project.board_order,
     }
-    return axiosHelper(url, params, payload, 'PUT', getHeaders())
+    return axiosHelper(url, null, payload, 'PUT', getHeaders())
   },
   deleteProject(project_id) {
-    const url = `${APIURL}/projects`
-    const params = { 'id': project_id }
-    return axiosHelper(url, params, null, 'DELETE', getHeaders())
+    const url = `${APIURL}/projects/${project_id}`
+    return axiosHelper(url, null, {}, 'DELETE', getHeaders())
   },
 
   /* Boards */
@@ -104,19 +102,17 @@ export default {
     return axiosHelper(url, null, payload, 'POST', getHeaders())
   },
   updateBoard(board_id, board) {
-    const url = `${APIURL}/boards`
-    const params = { 'id': board_id }
+    const url = `${APIURL}/boards/${board_id}`
     const payload = {
       'name': board.name,
       'theme': board.theme,
       'task_order': board.task_order,
     }
-    return axiosHelper(url, params, payload, 'PUT', getHeaders())
+    return axiosHelper(url, null, payload, 'PUT', getHeaders())
   },
   deleteBoard(board_id) {
-    const url = `${APIURL}/boards`
-    const params = { 'id': board_id }
-    return axiosHelper(url, params, null, 'DELETE', getHeaders())
+    const url = `${APIURL}/boards/${board_id}`
+    return axiosHelper(url, null, {}, 'DELETE', getHeaders())
   },
 
   /* Tasks */
@@ -131,30 +127,27 @@ export default {
     return axiosHelper(url, null, payload, 'POST', getHeaders())
   },
   updateTask(task_id, task) {
-    const url = `${APIURL}/tasks`
-    const params = { 'id': task_id }
+    const url = `${APIURL}/tasks/${task_id}`
     const payload = {
       'name': task.name,
       'priority': task.priority,
       'description': task.description,
     }
-    return axiosHelper(url, params, payload, 'PUT', getHeaders())
+    return axiosHelper(url, null, payload, 'PUT', getHeaders())
   },
   // If just try to move tasks to different position within the same board, using Endpoint updateBoard that passing the updated 'task_order'
   moveTaskAcrossBoard(task_id, dto) {
-    const url = `${APIURL}/tasks`
-    const params = { 'id': task_id }
+    const url = `${APIURL}/tasks/${task_id}`
     const payload = {
       'old_board_id': dto.old_board_id,
       'new_board_id': dto.new_board_id,
       'new_board_position': dto.new_board_position,
     }
-    return axiosHelper(url, params, payload, 'PUT', getHeaders())
+    return axiosHelper(url, null, payload, 'PUT', getHeaders())
   },
   deleteTask(task_id) {
-    const url = `${APIURL}/tasks`
-    const params = { 'id': task_id }
-    return axiosHelper(url, params, null, 'DELETE', getHeaders())
+    const url = `${APIURL}/tasks/${task_id}`
+    return axiosHelper(url, null, {}, 'DELETE', getHeaders())
   },
 
   /* Realtime listener */
@@ -163,12 +156,14 @@ export default {
     return onSnapshot(doc_ref, (doc) => {
       const data = doc.data()
       data_ref.value = {
-        'id': doc.id,
+        'id': data?.id,
         'name': data?.name,
         'description': data?.description,
         'visibility': data?.visibility,
         'boards': data?.boards || [],
-        'user': data?.users || [],
+        'board_order': data?.board_order || [],
+        'favorite': data?.favorite || false,
+        'session_uid': data?.session_uid || '',
       }
     })
   },

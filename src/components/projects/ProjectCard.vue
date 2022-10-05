@@ -2,7 +2,7 @@
   <div
     class="card project-card py-2 px-3 d-flex flex-column justify-content-between cursor-pointer"
     style="background-image: url(https://d2k1ftgv7pobq7.cloudfront.net/images/backgrounds/purty_wood_dark.png)"
-    @click="openProjectDetails(data.id)"
+    @click="openProjectDetails(data.session_uid)"
   >
     <div class="d-flex align-items-center justify-content-between">
       <h3 class="fw-bold text-light mb-0">{{ data.name }}</h3>
@@ -39,8 +39,8 @@
   }>()
 
   const router = useRouter()
-  function openProjectDetails(project_id: string): void {
-    router.push({ path: `/workspace/${project_id}` as string })
+  function openProjectDetails(session_id: string): void {
+    router.push({ path: `/workspace/${session_id}` as string })
   }
 
   function accessProject(event: string) {

@@ -65,8 +65,8 @@
   import { onMounted, watch, ref, computed, reactive } from 'vue'
   import { useGetters, useMutations, useActions } from '@/helper/vuex'
   import FilterPopUp from '@/components/common/FilterPopUp.vue'
-  import ProjectCard from '@/components/common/ProjectCard.vue'
-  import ProjectForm from '@/components/common/ProjectForm.vue'
+  import ProjectCard from '@/components/projects/ProjectCard.vue'
+  import ProjectForm from '@/components/projects/ProjectForm.vue'
   import api from '@/helper/api'
   import { ElMessage } from 'element-plus'
 
