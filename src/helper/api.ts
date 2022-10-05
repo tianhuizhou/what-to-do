@@ -21,6 +21,7 @@ interface FirebaseAPI {
   createBoard(board: Board): Promise<{ 'data': Board[] }>
   updateBoard(board_id: number, board: Partial<Board>): Promise<{ 'data': Board }>
   deleteBoard(board_id: number): Promise<{ 'msg': string }>
+  moveBoard(project_id: number, board_order: number[]): Promise<{ 'data': Project }>
   /* Tasks */
   createTask(task: Task): Promise<{ 'data': Task[] }>
   updateTask(task_id: number, task: Partial<Task>): Promise<{ 'data': Task }>
@@ -113,6 +114,13 @@ export default {
   deleteBoard(board_id) {
     const url = `${APIURL}/boards/${board_id}`
     return axiosHelper(url, null, null, 'DELETE', getHeaders())
+  },
+  moveBoard(project_id, board_order) {
+    const url = `${APIURL}/projects/${project_id}`
+    const payload = {
+      'board_order': board_order,
+    }
+    return axiosHelper(url, null, payload, 'PUT', getHeaders())
   },
 
   /* Tasks */

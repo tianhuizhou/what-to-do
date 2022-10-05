@@ -14,6 +14,7 @@
         :list="project_data.boards"
         group="board"
         itemKey="id"
+        @change="moveBoard"
       >
         <template #item="{ element: board }">
           <BoardCard :data="board" @update="upsertBoard(board)" @delete="openTerminateDialog('board', board)">
@@ -148,8 +149,6 @@
     if (board) drawer.dto = { 'id': board.id, 'name': board.name, 'theme': board.theme }
     else drawer.dto = { 'name': '', 'theme': '', 'project_id': project_data.value.id }
   }
-
-  function moveBoard() {}
   /* Drawer: Task */
 
   /* Dialog: delete data  */
@@ -184,6 +183,20 @@
         console.error(err)
         ElMessage.error('Failed to delete')
       })
+  }
+
+  /* Dragging Board/Task */
+  let board_timeout_id: NodeJS.Timeout | null = null
+  function moveBoard() {
+    const board_order = project_data.value.boards?.map((item) => {
+      return item.id as number
+    })
+
+    if (board_timeout_id) clearTimeout(board_timeout_id)
+    board_timeout_id = setTimeout(() => {
+      api.moveBoard(project_data.value.id as number, board_order ?? [])
+      board_timeout_id = null
+    }, 2000)
   }
 
   /* Lifecycle */
