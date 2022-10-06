@@ -7,43 +7,43 @@
       class="card card-body"
       style="background-image: url(https://d2k1ftgv7pobq7.cloudfront.net/images/backgrounds/purty_wood_dark.png)"
     >
-      <!--      <el-scrollbar>-->
-      <Draggable
-        class="d-flex gap-4 main-content"
-        handle=".border-draggable"
-        :list="project_data.boards"
-        group="board"
-        itemKey="id"
-        @change="moveBoard"
-      >
-        <template #item="{ element: board }">
-          <BoardCard :data="board" @update="upsertBoard(board)" @delete="openTerminateDialog('board', board)">
-            <template #task-list>
-              <div class="pt-5">
-                <Draggable style="height: 50vh" :list="board.tasks" group="task" itemKey="id">
-                  <template #item="{ element: task }">
-                    <TaskCard :data="task" :project_title="project_data.name" class="my-2" />
-                  </template>
-                  <template #footer>
-                    <button class="card btn-create-task fw-bold text-secondary">
-                      <i class="fir-add fw-bold" />New task
-                    </button>
-                  </template>
-                </Draggable>
-              </div>
-            </template>
-          </BoardCard>
-        </template>
+      <el-scrollbar>
+        <Draggable
+          class="d-flex gap-4 main-content"
+          handle=".border-draggable"
+          :list="project_data.boards"
+          group="board"
+          itemKey="id"
+          @change="moveBoard"
+        >
+          <template #item="{ element: board }">
+            <BoardCard :data="board" @update="openDrawer('board', board)" @delete="openTerminateDialog('board', board)">
+              <template #task-list>
+                <div class="pt-5">
+                  <Draggable style="height: 50vh" :list="board.tasks" group="task" itemKey="id">
+                    <template #item="{ element: task }">
+                      <TaskCard :data="task" :project_title="project_data.name" class="my-2" />
+                    </template>
+                    <template #footer>
+                      <button class="card btn-create-task fw-bold text-secondary" @click="openDrawer('task', board)">
+                        <i class="fir-add fw-bold" />New task
+                      </button>
+                    </template>
+                  </Draggable>
+                </div>
+              </template>
+            </BoardCard>
+          </template>
 
-        <template #footer>
-          <div>
-            <button class="card btn-create-status text-white fw-bold" @click="upsertBoard(null)">
-              <i class="fir-add fw-bold" /> <span>Add another list</span>
-            </button>
-          </div>
-        </template>
-      </Draggable>
-      <!--      </el-scrollbar>-->
+          <template #footer>
+            <div>
+              <button class="card btn-create-status text-white fw-bold" @click="openDrawer('board', null)">
+                <i class="fir-add fw-bold" /> <span>Add another list</span>
+              </button>
+            </div>
+          </template>
+        </Draggable>
+      </el-scrollbar>
     </div>
 
     <el-drawer
@@ -53,7 +53,8 @@
       :with-header="false"
       @close="closeDrawer"
     >
-      <BoardFormUpsert v-if="drawer.type === 'board'" :data="drawer.dto" @close="closeDrawer" />
+      <BoardForm v-if="drawer.type === 'board'" :data="drawer.dto" @close="closeDrawer" />
+      <TaskForm v-else-if="drawer.type === 'task'" :data="drawer.dto" @close="closeDrawer" />
     </el-drawer>
 
     <el-dialog
@@ -77,13 +78,7 @@
         </div>
       </template>
 
-      <TerminateForm
-        :id="dialog.id"
-        :name="dialog.name"
-        :type="dialog.type"
-        @close="closeDialog()"
-        @terminate="confirmTermination($event.type, $event.id)"
-      />
+      <TerminateForm :id="dialog.id" :name="dialog.name" :type="dialog.type" @close="closeDialog()" />
     </el-dialog>
   </div>
 </template>
@@ -92,19 +87,18 @@
   import PageHeader from '@/components/common/PageHeader.vue'
   import Draggable from 'vuedraggable'
   import BoardCard from '@/components/boards/BoardCard.vue'
-  import BoardFormUpsert from '@/components/boards/BoardFormUpsert.vue'
+  import BoardForm from '@/components/boards/BoardForm.vue'
   import TaskCard from '@/components/tasks/TaskCard.vue'
+  import TaskForm from '@/components/tasks/TaskForm.vue'
   import TerminateForm from '@/components/common/TerminateForm.vue'
 
   import api from '@/helper/api'
-  import { ElMessage } from 'element-plus'
 
   import { onMounted, ref, computed, reactive, onUnmounted } from 'vue'
-  import { useGetters, useMutations, useActions } from '@/helper/vuex'
   import { useRoute, useRouter } from 'vue-router'
   import { Unsubscribe } from '@firebase/firestore'
 
-  // route and router
+  /* Route and router */
   const route = useRoute()
   const session_id = computed<string>(() => {
     return route.params.id as string
@@ -114,27 +108,15 @@
     router.push({ path: '/workspace' })
   }
 
-  /* Vuex */
-  // vuex getter functions
-  const { load: loadProjects } = useActions(['load'], 'projects')
-
-  // eslint-disable-next-line no-undef
+  /* Realtime data from Firestore */
   const project_data = ref<Partial<Project>>({})
   let unsub: Unsubscribe | null = null
-
-  let loading = ref(false)
-  function loadData() {
-    loading.value = true
-    loadProjects().finally(() => {
-      loading.value = false
-    })
-  }
 
   /* Drawer: create/update data */
   let drawer = reactive({
     is_show: false as boolean,
     type: null as 'board' | 'task' | null,
-    dto: null as Board | null,
+    dto: null as Board | Task | null,
   })
   function closeDrawer() {
     // reset drawer data
@@ -142,14 +124,17 @@
     drawer.type = null
     drawer.dto = null
   }
-  // Upsert Board
-  function upsertBoard(board?: Board) {
+  function openDrawer(type: 'board' | 'task', dto?: Board) {
+    if (type == 'board') {
+      if (dto) drawer.dto = { 'id': dto.id, 'name': dto.name, 'theme': dto.theme }
+      else drawer.dto = { 'name': '', 'theme': '', 'project_id': project_data.value.id }
+    } else if (type == 'task') {
+      if (dto) drawer.dto = { 'name': '', 'board_id': dto.id }
+    }
+
     drawer.is_show = true
-    drawer.type = 'board'
-    if (board) drawer.dto = { 'id': board.id, 'name': board.name, 'theme': board.theme }
-    else drawer.dto = { 'name': '', 'theme': '', 'project_id': project_data.value.id }
+    drawer.type = type
   }
-  /* Drawer: Task */
 
   /* Dialog: delete data  */
   let dialog = reactive({
@@ -170,20 +155,6 @@
     dialog.name = dto.name
     dialog.id = dto.id
   }
-  function confirmTermination(type: 'board' | 'task', id: number) {
-    if (type === 'board') deleteBoard(id)
-  }
-  function deleteBoard(id: number) {
-    api
-      .deleteBoard(id)
-      .then(() => {
-        closeDialog()
-      })
-      .catch((err) => {
-        console.error(err)
-        ElMessage.error('Failed to delete')
-      })
-  }
 
   /* Dragging Board/Task */
   let board_timeout_id: NodeJS.Timeout | null = null
@@ -201,7 +172,6 @@
 
   /* Lifecycle */
   onMounted(() => {
-    loadData()
     // start listener
     unsub = api.getProjectRealtimeRef(session_id.value, project_data)
   })

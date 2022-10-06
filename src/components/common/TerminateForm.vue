@@ -33,15 +33,16 @@
 
 <script lang="ts" setup>
   import { defineEmits, defineProps, ref } from 'vue'
+  import api from '@/helper/api'
+  import { ElMessage } from 'element-plus/es'
 
   const props = defineProps<{
+    id: number
     name: string
     type: string
-    id: number
   }>()
   const emit = defineEmits<{
     (e: 'close'): void
-    (e: 'terminate', dto: { 'id': number; 'type': string }): void
   }>()
 
   let confirm_text = ref<string>('')
@@ -56,7 +57,21 @@
     emit('close')
   }
   function confirmTerminate() {
-    emit('terminate', { 'id': props.id, 'type': props.type })
+    let promise = null
+    if (props.type === 'board') promise = api.deleteBoard(props.id)
+    else if (props.type === 'task') promise = api.deleteTask(props.id)
+
+    if (!promise) return
+
+    promise
+      .then(() => {
+        ElMessage.error(`Delete ${props.name} successfully`)
+        closeDialog()
+      })
+      .catch((err) => {
+        console.error(err)
+        ElMessage.error('Failed to delete')
+      })
   }
 </script>
 

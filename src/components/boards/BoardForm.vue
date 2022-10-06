@@ -77,24 +77,34 @@
     }
 
     if (is_update.value && props.data.id) {
+      loading.value = true
       api
         .updateBoard(props.data.id, form_data)
         .then(() => {
+          ElMessage.success(`${form_data.name} has been updated successfully.`)
           closeDrawer()
         })
         .catch((err) => {
           console.error(err)
           ElMessage.error(`Failed to update the board ${form_data.name}`)
         })
+        .finally(() => {
+          loading.value = false
+        })
     } else if (!is_update.value) {
+      loading.value = true
       api
         .createBoard(form_data)
         .then(() => {
+          ElMessage.success(`${form_data.name} has been created successfully.`)
           closeDrawer()
         })
         .catch((err) => {
           console.error(err)
           ElMessage.error(`Failed to create the board ${form_data.name}`)
+        })
+        .finally(() => {
+          loading.value = false
         })
     }
   }

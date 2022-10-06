@@ -25,7 +25,7 @@ declare interface Board {
 declare interface Task {
   id?: number
   name: string
-  priority: string
+  priority?: string
   description?: string
   board_id?: number
 }
@@ -54,4 +54,12 @@ declare interface MenuState {
   menuType: string
   clickCount: number
   selectedMenuHasSubItems: boolean
+}
+
+declare interface TaskPriority {
+  [key: string]: {
+    icon: string
+    class: string
+    label: string
+  }
 }
