@@ -50,6 +50,7 @@
         <template #dropdown>
           <el-dropdown-menu style="width: 150px">
             <el-dropdown-item command="profile">Profile</el-dropdown-item>
+            <el-dropdown-item command="auth_token">Auth Token</el-dropdown-item>
             <el-dropdown-item divided command="logout">Logout</el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -65,12 +66,24 @@
   import { useGetters, useMutations } from '@/helper/vuex'
   import { useRouter } from 'vue-router'
 
-  function handleCommand(command) {}
+  const { log_token } = useGetters(['log_token'])
+  function handleCommand(command: string) {
+    switch (command) {
+      case 'logout':
+        return logoutUser()
+      case 'auth_token':
+        console.log(log_token.value)
+        return
+      default:
+        console.log(command)
+    }
+  }
 
   const router = useRouter()
   const logoutUser = () => {
     api.logout().finally(() => {
       removeUser()
+      api.logout()
       router.replace({ path: '/user/login' as string })
     })
   }

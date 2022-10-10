@@ -20,7 +20,13 @@
             <BoardCard :data="board" @update="openDrawer('board', board)" @delete="openTerminateDialog('board', board)">
               <template #task-list>
                 <div class="pt-5">
-                  <Draggable style="height: 50vh" :list="board.tasks" group="task" itemKey="id">
+                  <Draggable
+                    style="height: 50vh"
+                    :list="board.tasks"
+                    group="task"
+                    itemKey="id"
+                    @change="moveTask($event, board)"
+                  >
                     <template #item="{ element: task }">
                       <TaskCard :data="task" :project_title="project_data.name" class="my-2" />
                     </template>
@@ -159,15 +165,55 @@
   /* Dragging Board/Task */
   let board_timeout_id: NodeJS.Timeout | null = null
   function moveBoard() {
+    if (board_timeout_id) clearTimeout(board_timeout_id)
+
     const board_order = project_data.value.boards?.map((item) => {
       return item.id as number
     })
-
-    if (board_timeout_id) clearTimeout(board_timeout_id)
     board_timeout_id = setTimeout(() => {
       api.moveBoard(project_data.value.id as number, board_order ?? [])
       board_timeout_id = null
-    }, 2000)
+    }, 1000)
+  }
+
+  let task_timeout: { timeout_id: NodeJS.Timeout; task_id: number } | null = null
+  function moveTask(dto: any, target_board: Board) {
+    const moved_within_board = dto.moved ?? null
+    const moved_across_board = dto.added ?? null
+
+    if (!moved_across_board && !moved_within_board) return
+    const elem = moved_within_board?.element ?? moved_across_board?.element
+    if (task_timeout) {
+      if (task_timeout.task_id === elem.id) clearTimeout(task_timeout.timeout_id)
+    }
+    if (moved_within_board) {
+      // Only need to call Board endpoint to update the 'task_order' property
+      const task_order = target_board.tasks?.map((item) => {
+        return item.id as number
+      })
+      task_timeout = {
+        'task_id': elem.id,
+        'timeout_id': setTimeout(() => {
+          api.updateBoard(target_board.id as number, { 'task_order': task_order })
+          task_timeout = null
+        }, 1000),
+      }
+    } else if (moved_across_board) {
+      // moveTaskAcrossBoard
+      const payload = {
+        'old_board_id': elem.board_id as number,
+        'new_board_id': target_board.id as number,
+        'new_board_position': moved_across_board.newIndex as number,
+      }
+
+      task_timeout = {
+        'task_id': elem.id,
+        'timeout_id': setTimeout(() => {
+          api.moveTaskAcrossBoard(elem.id, payload)
+          task_timeout = null
+        }, 1000),
+      }
+    }
   }
 
   /* Lifecycle */

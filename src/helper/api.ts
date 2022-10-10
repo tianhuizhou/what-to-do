@@ -145,7 +145,7 @@ export default {
   },
   // If just try to move tasks to different position within the same board, using Endpoint updateBoard that passing the updated 'task_order'
   moveTaskAcrossBoard(task_id, dto) {
-    const url = `${APIURL}/tasks/${task_id}`
+    const url = `${APIURL}/tasks/move/${task_id}`
     const payload = {
       'old_board_id': dto.old_board_id,
       'new_board_id': dto.new_board_id,

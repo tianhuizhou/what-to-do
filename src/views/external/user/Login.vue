@@ -3,7 +3,7 @@
     <div class="card mx-auto" style="width: 500px">
       <div class="card-body text-center card-body-login" v-loading="loading">
         <div class="client-logo">
-          <img src="@/assets/DocQ-Icon.png" alt="DocQ logo" style="height: 90px" />
+          <img src="@/assets/logos/App-Logo.svg" alt="DocQ logo" style="height: 60px" />
         </div>
 
         <div class="my-4">
