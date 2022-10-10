@@ -9,7 +9,7 @@
     >
       <el-scrollbar>
         <Draggable
-          class="d-flex gap-4 main-content"
+          class="d-flex gap-5 main-content"
           handle=".border-draggable"
           :list="project_data.boards"
           group="board"
@@ -28,7 +28,12 @@
                     @change="moveTask($event, board)"
                   >
                     <template #item="{ element: task }">
-                      <TaskCard :data="task" :project_title="project_data.name" class="my-2" />
+                      <TaskCard
+                        :data="task"
+                        :project_title="project_data.name"
+                        class="my-3"
+                        @delete="openTerminateDialog('task', task)"
+                      />
                     </template>
                     <template #footer>
                       <button class="card btn-create-task fw-bold text-secondary" @click="openDrawer('task', board)">
@@ -98,11 +103,16 @@
   import TaskForm from '@/components/tasks/TaskForm.vue'
   import TerminateForm from '@/components/common/TerminateForm.vue'
 
+  import { ElLoading } from 'element-plus'
+
   import api from '@/helper/api'
 
-  import { onMounted, ref, computed, reactive, onUnmounted } from 'vue'
+  import { onMounted, ref, computed, reactive, onUnmounted, watch } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
   import { Unsubscribe } from '@firebase/firestore'
+
+  let loading = ref<boolean>(false)
+  let loading_effect: any = null
 
   /* Route and router */
   const route = useRoute()
@@ -218,11 +228,23 @@
 
   /* Lifecycle */
   onMounted(() => {
+    loading_effect = ElLoading.service({
+      lock: loading.value,
+      text: 'Loading',
+      background: 'rgba(0, 0, 0, 0.7)',
+    })
+    loading.value = true
     // start listener
-    unsub = api.getProjectRealtimeRef(session_id.value, project_data)
+    unsub = api.getProjectRealtimeRef(session_id.value, project_data, loading)
   })
   onUnmounted(() => {
     if (unsub) unsub()
   })
+  watch(
+    () => loading.value,
+    (to) => {
+      if (!to) loading_effect.close()
+    },
+  )
 </script>
 <style scoped></style>

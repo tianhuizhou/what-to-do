@@ -1,14 +1,11 @@
 <template>
   <div class="app-board">
-    <div
-      class="card card-border border-draggable border-top border-4 cursor-pointer"
-      :style="{ 'border-color': `${data.theme}!important` }"
-    >
+    <div class="card card-border border-draggable border-top border-4 cursor-pointer" :class="`border-${data.theme}`">
       <div class="card-body row align-items-center p-0">
         <div class="col-8 d-flex align-items-center gap-2">
-          <h4 class="mb-0 fw-bold text-truncate">{{ props.data.name }}</h4>
-          <el-tooltip effect="dark" :content="`${props.data.tasks.length} tasks`" placement="top-start">
-            <el-button size="small">{{ props.data.tasks.length }}</el-button>
+          <h4 class="mb-0 fw-bold text-truncate">{{ data.name }}</h4>
+          <el-tooltip effect="dark" :content="`${data.tasks.length} tasks`" placement="top-start">
+            <el-button size="small">{{ data.tasks.length }}</el-button>
           </el-tooltip>
         </div>
         <div class="col-4 d-flex justify-content-end">

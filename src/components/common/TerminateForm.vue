@@ -1,5 +1,5 @@
 <template>
-  <div class="text-break">
+  <div class="text-break" v-loading="loading">
     <p class="fs-3 text-secondary">
       Are you sure you would like to permanently terminate
       <span class="fw-bold text-dark">{{ name }}</span>
@@ -45,6 +45,7 @@
     (e: 'close'): void
   }>()
 
+  let loading = ref<boolean>(false)
   let confirm_text = ref<string>('')
   let error = ref<string>('')
 
@@ -62,7 +63,7 @@
     else if (props.type === 'task') promise = api.deleteTask(props.id)
 
     if (!promise) return
-
+    loading.value = true
     promise
       .then(() => {
         ElMessage.error(`Delete ${props.name} successfully`)
@@ -71,6 +72,9 @@
       .catch((err) => {
         console.error(err)
         ElMessage.error('Failed to delete')
+      })
+      .finally(() => {
+        loading.value = false
       })
   }
 </script>

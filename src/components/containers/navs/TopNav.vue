@@ -25,27 +25,9 @@
     </router-link>
 
     <div class="d-flex align-items-center justify-content-end me-3">
-      <!-- Help in development -->
-      <!-- <button
-        class="btn btn-secondary btn-sm btn-circle me-2 me-md-3"
-        @click="refreshUserDetails()"
-        title="Reload permissions"
-      >
-        <i class="fis-arrow-clockwise"></i>
-      </button> -->
-
       <el-dropdown trigger="click" @command="handleCommand">
         <div class="el-dropdown-link d-flex align-items-center">
-          <!-- :src="`https://ui-avatars.com/api/?name=${user_initials}&color=2c2c2c&background=f8f8f8&rounded=true`" -->
-          <!--          <div class="user-avatar">-->
-          <!--            <el-avatar v-if="!has_picture" :size="40">{{ user_initials }}</el-avatar>-->
-          <!--            <el-avatar v-else fit="cover" :size="40" :src="`data:${type_picture};base64,${user_picture_b64}`" />-->
-          <!--          </div>-->
-          <!--          <div class="text-truncate d-none d-sm-block ms-1" style="width: 100px">-->
-          <!--            <span>@{{ logged_user.username }}</span>-->
-          <!--            <br /><small class="text-muted">{{ logged_user.group_access_name }}</small>-->
-          <!--          </div>-->
-          <el-avatar :size="32">TZ</el-avatar>
+          <el-avatar :size="32">{{ user_name_initial }}</el-avatar>
         </div>
         <template #dropdown>
           <el-dropdown-menu style="width: 150px">
@@ -65,8 +47,13 @@
   import api from '@/helper/api'
   import { useGetters, useMutations } from '@/helper/vuex'
   import { useRouter } from 'vue-router'
+  import { computed } from 'vue'
 
-  const { log_token } = useGetters(['log_token'])
+  const { log_token, user_data } = useGetters(['log_token', 'user_data'])
+  const user_name_initial = computed(() => {
+    return user_data.value.display_name[0] ?? ''
+  })
+
   function handleCommand(command: string) {
     switch (command) {
       case 'logout':

@@ -16,7 +16,7 @@ interface FirebaseAPI {
   createProject(project: Project): Promise<{ 'data': Project[] }>
   updateProject(project_id: number, project: Partial<Project>): Promise<{ 'data': Project }>
   deleteProject(project_id: number): Promise<{ 'msg': string }>
-  getProjectRealtimeRef(project_id: string, data_ref: Ref): Unsubscribe
+  getProjectRealtimeRef(project_id: string, data_ref: Ref, loading: Ref): Unsubscribe
   /* Boards */
   createBoard(board: Board): Promise<{ 'data': Board[] }>
   updateBoard(board_id: number, board: Partial<Board>): Promise<{ 'data': Board }>
@@ -159,7 +159,7 @@ export default {
   },
 
   /* Realtime listener */
-  getProjectRealtimeRef(project_id: string, data_ref) {
+  getProjectRealtimeRef(project_id, data_ref, loading) {
     const doc_ref = doc(db, 'projects', project_id)
     return onSnapshot(doc_ref, (doc) => {
       const data = doc.data()
@@ -173,6 +173,7 @@ export default {
         'favorite': data?.favorite || false,
         'session_uid': data?.session_uid || '',
       }
+      loading.value = false
     })
   },
 } as FirebaseAPI

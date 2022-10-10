@@ -3,7 +3,7 @@
     <TopNav />
     <SideBar />
     <main>
-      <div class="container-fluid" style="max-width: 1920px">
+      <div class="container-fluid" style="max-width: 2022px">
         <slot></slot>
       </div>
     </main>

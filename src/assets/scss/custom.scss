@@ -117,3 +117,14 @@ hr {
     background-color: rgba(255, 255, 255, 0.6);
     transition: 0.5s ease;
 }
+
+.task-card {
+    width: 265px;
+    padding: 8px 12px 8px 12px;
+    transition: 0.2s ease;
+    box-shadow: 0 0 1px 1px rgba($dark,10%), 0 3px 1px 0 rgba($dark, 10%);
+}
+.task-card:hover {
+    border: 2px solid $info;
+    box-shadow: 0 2px 8px 2px rgba($dark, 25%);
+}
