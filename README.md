@@ -1,8 +1,9 @@
 # WhatToDo
 
 ## Project info
-A light-weight SaaS based Task management system and written in TypeScript, Vue3.
-A personal project for practicing.
+A light-weight SaaS based Project management system that supports that support team to manage project, workflow, or task tracking with real time communication and content control.
+
+Backend API: <a> https://github.com/tianhuizhou/what-to-do-API </a>
 
 ## Project setup
 ```
@@ -23,6 +24,3 @@ yarn build
 ```
 yarn lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
