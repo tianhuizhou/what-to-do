@@ -46,14 +46,14 @@
       </div>
     </div>
 
-    <div class="row border-top border-1 mt-2 pt-2">
-      <div class="col">
-        <el-button size="small" circle class="border-0"><i class="fir-flag fs-3" /></el-button>
-        <el-button size="small" circle class="border-0"><i class="fir-calendar-checkmark fs-3" /></el-button>
+    <div class="row align-items-center border-top border-1 mt-2 pt-2">
+      <div class="col text-start">
+        <TaskPriorityFlag :priority="data.priority" :task_id="data.id" />
+        <el-button circle class="border-0 p-1"><i class="fir-calendar-clock fs-2" /></el-button>
       </div>
       <div class="col text-end">
-        <el-button size="small" circle class="border-0"><i class="fis-checkmark fs-2 fw-bold" /></el-button>
-        <el-button size="small" circle class="border-0"><i class="fis-more fs-1" /></el-button>
+        <el-button size="small" circle class="border-0"><i class="fis-checkmark fw-bold" /></el-button>
+        <el-button size="small" circle class="border-0"><i class="fis-more fs-2" /></el-button>
       </div>
     </div>
   </div>
@@ -61,6 +61,7 @@
 
 <script setup lang="ts">
   import { defineProps, withDefaults } from 'vue'
+  import TaskPriorityFlag from '@/components/tasks/TaskPriorityFlag.vue'
 
   withDefaults(
     defineProps<{
