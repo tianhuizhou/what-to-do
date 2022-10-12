@@ -40,6 +40,7 @@
 
       <div class="my-5 d-flex gap-3 flex-wrap" v-loading="loading">
         <div
+          v-if="!loading"
           class="card project-card bg-main d-flex flex-column justify-content-center cursor-pointer"
           @click="openProjectForm()"
         >

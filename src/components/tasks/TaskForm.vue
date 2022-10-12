@@ -33,11 +33,8 @@
 
       <div class="my-3">
         <h4>Description</h4>
-        <el-input
-          v-model="form_data.description"
-          :class="{ 'invalid': !form_data.description }"
-          placeholder="Task description"
-        />
+
+        <MarkdownEditor :value="form_data.description" @input="form_data.description = $event" />
       </div>
     </el-scrollbar>
 
@@ -51,6 +48,7 @@
 <script lang="ts" setup>
   import { defineEmits, defineProps, reactive, ref } from 'vue'
   import TaskData from '@/utils/task_data'
+  import MarkdownEditor from '@/components/common/MarkdownEditor'
   import { ElMessage } from 'element-plus'
   import api from '@/helper/api'
 
