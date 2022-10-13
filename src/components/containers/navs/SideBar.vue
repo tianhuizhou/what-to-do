@@ -15,7 +15,7 @@
             <div>
               <router-link @click="changeSelectedParentHasNoSubmenu(item.id)" :to="item.to">
                 <i :class="item.icon" />
-                {{ item.label }}
+                <span class="ps-2">{{ item.label }}</span>
               </router-link>
             </div>
           </li>
@@ -31,7 +31,7 @@
   import { useGetters, useMutations, useActions } from '@/helper/vuex'
 
   const menuItems = ref([
-    { 'id': 'home', 'label': 'Home', 'icon': 'fir-home', 'to': '/home' },
+    { 'id': 'home', 'label': 'Home', 'icon': 'fis-home', 'to': '/home' },
     { 'id': 'workspace', 'label': 'Workspace', 'icon': 'fir-apps', 'to': '/workspace' },
   ])
   const { getMenuType: menuType, getSelectedMenuHasSubItems: selectedMenuHasSubItems } = useGetters([

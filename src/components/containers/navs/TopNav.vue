@@ -17,12 +17,17 @@
       >
         <MobileMenuIcon />
       </a>
+
+      <router-link class="navbar-logo" to="/home">
+        <span class="logo d-none d-sm-block"></span>
+        <span class="logo-mobile d-block d-sm-none"></span>
+      </router-link>
     </div>
 
-    <router-link class="navbar-logo" to="/home">
-      <span class="logo d-none d-sm-block"></span>
-      <span class="logo-mobile d-block d-sm-none"></span>
-    </router-link>
+    <!--    <router-link class="navbar-logo" to="/home">-->
+    <!--      <span class="logo d-none d-sm-block"></span>-->
+    <!--      <span class="logo-mobile d-block d-sm-none"></span>-->
+    <!--    </router-link>-->
 
     <div class="d-flex align-items-center justify-content-end me-3">
       <el-dropdown trigger="click" @command="handleCommand">

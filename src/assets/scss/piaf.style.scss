@@ -2,21 +2,21 @@
 
 /* 00.Variables and Imports */
 
-$main-menu-item-height: 110px;
-$main-menu-width: 110px;
-$main-menu-width-lg: 95px;
-$main-menu-width-md: 90px;
-$main-menu-width-xs: 80px;
+$main-menu-item-height: 60px;
+$main-menu-width: 220px;
+$main-menu-width-lg: 75px;
+$main-menu-width-md: 75px;
+$main-menu-width-xs: 75px;
 
 $sub-menu-width: 230px;
 $sub-menu-width-lg: 230px;
 $sub-menu-width-md: 230px;
 $sub-menu-width-xs: 230px;
 
-$navbar-height: 90px;
-$navbar-height-lg: 80px;
-$navbar-height-md: 70px;
-$navbar-height-xs: 65px;
+$navbar-height: 65px;
+$navbar-height-lg: 60px;
+$navbar-height-md: 55px;
+$navbar-height-xs: 55px;
 
 $main-margin: 60px;
 $main-margin-lg: 40px;
@@ -26,7 +26,7 @@ $main-margin-xs: 15px;
 $app-menu-tabs-width: 80px;
 $app-menu-width: 320px;
 
-$main-menu-item-height-mobile: 90px;
+$main-menu-item-height-mobile: 60px;
 
 $menu-collapse-time: 300ms;
 $animation-time-long: 1000ms;
@@ -1699,16 +1699,14 @@ body {
       fill: $primary-color;
     }
 
-    margin-left: $main-margin-xs;
-
     @include respond-below(sm) {
-      width: 20px;
+      width: $main-menu-width-xs;
     }
   }
 
   .menu-button {
     color: $secondary-color;
-    width: $main-menu-width;
+    width: 60px;
     text-align: center;
 
     svg {
@@ -1738,7 +1736,7 @@ body {
     }
 
     @include respond-below(sm) {
-      width: 60px;
+      width: $main-menu-width-xs;
     }
   }
 
@@ -1770,10 +1768,6 @@ body {
   .navbar-logo {
     width: 110px;
     height: 35px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
 
     .logo {
       width: 100%;
@@ -2053,6 +2047,7 @@ body {
     padding-bottom: 10px;
     left: 0;
 
+    box-shadow: 0 1px 15px rgb(0 0 0 / 4%), 0 1px 6px rgb(0 0 0 / 4%);
     .scroll {
       padding-right: unset;
       margin-right: unset;
@@ -2079,10 +2074,11 @@ body {
       a {
         height: $main-menu-item-height;
         display: flex;
-        flex-direction: column;
-        justify-content: center;
+        flex-direction: row;
+        justify-content: start;
+        padding: 0 20px;
         align-items: center;
-        font-size: 13px;
+        font-size: 14px;
         font-style: normal;
         font-weight: 600;
         border-bottom: 1px solid $separator-color-light;
@@ -2097,12 +2093,13 @@ body {
       }
 
       i {
-        font-size: 32px;
-        line-height: 42px;
+        font-size: 20px;
+        //line-height: 24px;
       }
 
       &.active a {
         color: $theme-color-1;
+        background-color: rgba($theme-color-1, 0.1);
       }
 
       &.active:after {
@@ -2127,6 +2124,18 @@ body {
     @include respond-below(xl) {
       width: $main-menu-width-lg;
       height: calc(100% - #{$navbar-height-lg});
+      ul li a {
+        height: 70px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-size: 10px;
+        i {
+          font-size: 24px;
+          line-height: 35px;
+        }
+      }
+      // padding: 0 20px;
     }
 
     @include respond-below(lg) {
