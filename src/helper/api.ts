@@ -12,7 +12,7 @@ interface FirebaseAPI {
   logout(): Promise<void>
   loginByGoogleOAuth(): Promise<UserCredential>
   /* Projects */
-  getAllProjects(): Promise<{ [key: string | number]: Project }>
+  getAllProjects(): Promise<{ 'data': Project[] }>
   createProject(project: Project): Promise<{ 'data': Project[] }>
   updateProject(project_id: number, project: Partial<Project>): Promise<{ 'data': Project }>
   deleteProject(project_id: number): Promise<{ 'msg': string }>
@@ -30,6 +30,16 @@ interface FirebaseAPI {
     dto: { 'old_board_id': number; 'new_board_id': number; 'new_board_position': number },
   ): Promise<{ 'msg': string }>
   deleteTask(task_id: number): Promise<{ 'msg': string }>
+  assignTask(task_id: number, user_id: number): Promise<{ 'msg': string }>
+  unassignTask(task_id: number, user_id: number): Promise<{ 'msg': string }>
+  /* Tags */
+  getTags(query_text?: string): Promise<{ 'data': Tag[] }>
+  createTag(tag: Tag): Promise<{ 'data': Tag[] }>
+  updateTag(tag_id: number, tag: Partial<Tag>): Promise<{ 'data': Tag[] }>
+  deleteTag(tag_id: number): Promise<{ 'msg': string }>
+  /* Users */
+  getUsers(): Promise<{ 'data': User[] }>
+  updateUser(uid: string, user: Partial<User>): Promise<{ 'data': User }>
 }
 
 const db = getFirestore(app)
@@ -140,6 +150,7 @@ export default {
       'name': task.name,
       'priority': task.priority,
       'description': task.description,
+      'tags': task.tags,
     }
     return axiosHelper(url, null, payload, 'PUT', getHeaders())
   },
@@ -156,6 +167,48 @@ export default {
   deleteTask(task_id) {
     const url = `${APIURL}/tasks/${task_id}`
     return axiosHelper(url, null, null, 'DELETE', getHeaders())
+  },
+  assignTask(task_id, user_id) {
+    const url = `${APIURL}/tasks/assign/${task_id}`
+    const payload = { 'user': user_id }
+    return axiosHelper(url, null, payload, 'PUT', getHeaders())
+  },
+  unassignTask(task_id, user_id) {
+    const url = `${APIURL}/tasks/unassign/${task_id}`
+    const payload = { 'user': user_id }
+    return axiosHelper(url, null, payload, 'PUT', getHeaders())
+  },
+
+  /* Tags */
+  getTags(query_text = '') {
+    const url = `${APIURL}/tags`
+    const params = { 'name': query_text as string }
+    return axiosHelper(url, params, null, 'GET', getHeaders())
+  },
+  createTag(dto) {
+    const url = `${APIURL}/tags`
+    const payload = { 'name': dto.name, 'theme': dto.theme }
+    return axiosHelper(url, null, payload, 'POST', getHeaders())
+  },
+  updateTag(tag_id, dto) {
+    const url = `${APIURL}/tags/${tag_id}`
+    const payload = { 'name': dto.name, 'theme': dto.theme }
+    return axiosHelper(url, null, payload, 'PUT', getHeaders())
+  },
+  deleteTag(tag_id) {
+    const url = `${APIURL}/tags/${tag_id}`
+    return axiosHelper(url, null, null, 'DELETE', getHeaders())
+  },
+
+  /* Users */
+  getUsers() {
+    const url = `${APIURL}/users`
+    return axiosHelper(url, null, null, 'GET', getHeaders())
+  },
+  updateUser(uid, dto) {
+    const url = `${APIURL}/users/${uid}`
+    const payload = { 'name': dto.name, 'photo_b64': dto.photo_b64 }
+    return axiosHelper(url, null, payload, 'PUT', getHeaders())
   },
 
   /* Realtime listener */

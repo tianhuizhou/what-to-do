@@ -10,6 +10,7 @@ declare interface Project {
   session_uid?: string
   created_at?: Date
   updated_at?: Date
+  background?: string
   // user: User[]
 }
 
@@ -27,12 +28,25 @@ declare interface Task {
   name: string
   priority?: string
   description?: string
+  tags?: [{ 'id': number }]
   board_id?: number
+  estimated_time?: string
+  due_date?: string
+  is_completed?: boolean
+}
+
+declare interface Tag {
+  id?: number
+  name: string
+  theme: string
 }
 
 declare interface User {
-  id?: string
+  id?: number
   name: string
+  email: string
+  user_uid?: string
+  photo_b64?: string
 }
 
 declare interface FilterProps {
