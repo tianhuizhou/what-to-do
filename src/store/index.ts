@@ -13,5 +13,6 @@ export default createStore({
     'menu': menu,
     'logged_user': logged_user,
     'projects': vuex_modules.projects_module,
+    'users': vuex_modules.users_module,
   },
 })

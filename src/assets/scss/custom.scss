@@ -128,3 +128,35 @@ hr {
     border: 2px solid $info;
     box-shadow: 0 2px 8px 2px rgba($dark, 25%);
 }
+.user-assignment-btn:hover {
+    .el-avatar {
+        box-shadow: 0 1px 2px 1px rgb(0 0 0 / 57%);
+    }
+}
+.row-light {
+    min-height: 40px;
+    border-radius: 8px;
+    padding: 4px 8px;
+
+    &:not(.bg-none) {
+        background-color: $light;
+    }
+
+    border: 2px solid transparent;
+    &.selected {
+        background-color: $primary-light;
+        border-color: $theme-color-2;
+        &.error {
+            background-color: mix($danger, $white, 10%);
+        }
+    }
+    &.error {
+        border-color: $danger;
+    }
+    &.row-hover:hover {
+        cursor: pointer;
+        background-color: mix($light, $primary-light, 30%);
+    }
+
+    transition: background-color 0.15s, border-color 0.15s;
+}

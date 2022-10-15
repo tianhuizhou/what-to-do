@@ -3,7 +3,7 @@
     <div class="fs-6 fw-bolder text-muted mb-2">Workspace > {{ project_title }}</div>
 
     <div class="row align-items-center">
-      <div class="col col-9 text-break">
+      <div class="col col-8 text-break">
         {{ data.name }}
         <el-popover
           :width="300"
@@ -21,8 +21,8 @@
         </el-popover>
       </div>
 
-      <div class="col-3 text-end">
-        <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" size="small" />
+      <div class="col-4 text-center ps-0">
+        <UserAssignments :task_id="data.id" :users="data.users" />
       </div>
 
       <div class="col-12 d-flex align-items-center my-2">
@@ -60,6 +60,7 @@
 <script setup lang="ts">
   import { defineEmits, defineProps, withDefaults } from 'vue'
   import TaskPriorityFlag from '@/components/tasks/TaskPriorityFlag.vue'
+  import UserAssignments from '@/components/common/UserAssignments.vue'
   import api from '@/helper/api'
   import { ElMessage } from 'element-plus'
 

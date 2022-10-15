@@ -13,7 +13,7 @@ interface FirebaseAPI {
   loginByGoogleOAuth(): Promise<UserCredential>
   /* Projects */
   getAllProjects(): Promise<{ 'data': Project[] }>
-  createProject(project: Project): Promise<{ 'data': Project[] }>
+  createProject(project: Project): Promise<{ 'data': Project }>
   updateProject(project_id: number, project: Partial<Project>): Promise<{ 'data': Project }>
   deleteProject(project_id: number): Promise<{ 'msg': string }>
   getProjectRealtimeRef(project_id: string, data_ref: Ref, loading: Ref): Unsubscribe

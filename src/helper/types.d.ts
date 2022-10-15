@@ -33,6 +33,7 @@ declare interface Task {
   estimated_time?: string
   due_date?: string
   is_completed?: boolean
+  users?: User[]
 }
 
 declare interface Tag {

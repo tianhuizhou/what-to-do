@@ -51,6 +51,7 @@
           v-for="project in project_list"
           :key="project.id"
           :data="project"
+          @edit="openProjectForm(project.id)"
           @delete="deleteProject(project.id)"
         />
       </div>

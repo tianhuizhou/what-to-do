@@ -21,7 +21,7 @@ class ProjectForm {
   saveProject() {
     if (!this.form_data.id) {
       api.createProject(this.form_data).then((resp) => {
-        upsertProject(resp.data[0])
+        upsertProject(resp.data)
       })
     }
   }

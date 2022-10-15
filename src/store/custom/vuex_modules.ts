@@ -21,4 +21,5 @@ import api from '@/helper/api'
 
 export default {
   projects_module: new CustomModule(api.getAllProjects),
+  users_module: new CustomModule(api.getUsers),
 }

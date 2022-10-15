@@ -84,6 +84,7 @@
     form_data.favorite = dto.favorite || false
   }
   function initFormData() {
+    console.log(props.project_id)
     if (is_update.value) setupForm(getProject(props.project_id))
     else setupForm()
   }
@@ -110,6 +111,9 @@
         loading.value = false
       })
   }
+  onMounted(() => {
+    initFormData()
+  })
   watch(
     () => props.project_id,
     (to, from) => {
