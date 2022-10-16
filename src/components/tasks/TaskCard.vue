@@ -44,7 +44,9 @@
     <div class="row align-items-center border-top border-1 mt-2 pt-2">
       <div class="col text-start">
         <TaskPriorityFlag :priority="data.priority" :task_id="data.id" />
-        <el-button circle class="border-0 p-1"><i class="fir-calendar-clock fs-2" /></el-button>
+        <DatePickerPopover :value="data.due_date" @input="updateTaskDueDate" title="Due Date" />
+
+        <!--        <el-button circle class="border-0 p-1"><i class="fir-calendar-clock fs-2" /></el-button>-->
       </div>
       <div class="col text-end">
         <el-button
@@ -75,6 +77,7 @@
   import { defineEmits, defineProps, withDefaults } from 'vue'
   import TaskPriorityFlag from '@/components/tasks/TaskPriorityFlag.vue'
   import UserAssignments from '@/components/common/UserAssignments.vue'
+  import DatePickerPopover from '@/components/common/DatePickerPopover.vue'
   import api from '@/helper/api'
   import common from '@/helper/common'
   import { ElMessage } from 'element-plus'
@@ -127,6 +130,11 @@
         console.error(err)
         ElMessage.error(`Failed to ${value ? 'checked' : 'unchecked'}, please try again.`)
       })
+  }
+
+  function updateTaskDueDate(value: string) {
+    if (!props.data || !props.data.id) return
+    api.updateTask(props.data.id, { 'due_date': value })
   }
 
   /* DOM functions */
