@@ -35,6 +35,11 @@
         <h4 class="mb-0">Favorite</h4>
         <el-switch v-model="form_data.favorite" :width="48" class="ms-3" />
       </div>
+
+      <div class="my-3">
+        <h4>Background</h4>
+        <el-input v-model="form_data.background" placeholder="https://.." />
+      </div>
     </el-scrollbar>
 
     <div class="drawer__footer">
@@ -48,8 +53,8 @@
 
 <script lang="ts" setup>
   import { ref, defineProps, defineEmits, computed, reactive, onMounted, watch } from 'vue'
-  import { useGetters, useMutations, useActions } from '@/helper/vuex'
   import api from '@/helper/api'
+  import { useStore } from 'vuex'
   import { ElMessage } from 'element-plus'
 
   const props = defineProps<{
@@ -70,12 +75,14 @@
 
   let loading = ref<boolean>(false)
 
-  const { by_id: getProject } = useGetters(['by_id'], 'projects')
+  const store = useStore()
+
   let form_data = reactive<Project>({
     'name': '',
     'description': '',
     'visibility': 'public',
     'favorite': false,
+    'background': '',
   })
   function setupForm(dto: Partial<Project> = {}) {
     form_data.name = dto.name || ''
@@ -84,12 +91,11 @@
     form_data.favorite = dto.favorite || false
   }
   function initFormData() {
-    console.log(props.project_id)
-    if (is_update.value) setupForm(getProject(props.project_id))
+    if (is_update.value) setupForm(store.getters['projects/by_id'](props.project_id))
     else setupForm()
   }
 
-  const { upsert: upsertProjectVuex } = useMutations(['upsert'], 'projects')
+  const upsertProjectVuex = (dto) => store.commit('projects/upsert', dto)
   function upsertProject() {
     if (!is_update.value) createProject()
   }

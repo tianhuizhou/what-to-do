@@ -83,6 +83,7 @@ export default {
       'description': project.description || '',
       'visibility': project.visibility || 'public',
       'favorite': project.favorite || false,
+      'background': project.background || '',
     }
     return axiosHelper(url, null, payload, 'POST', getHeaders())
   },
@@ -225,6 +226,7 @@ export default {
       data_ref.value = {
         'id': data?.id,
         'name': data?.name,
+        'background': data?.background,
         'description': data?.description,
         'visibility': data?.visibility,
         'boards': data?.boards || [],

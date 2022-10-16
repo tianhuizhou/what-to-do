@@ -1,7 +1,8 @@
 <template>
   <div
     class="card project-card py-2 px-3 d-flex flex-column justify-content-between cursor-pointer"
-    style="background-image: url(https://d2k1ftgv7pobq7.cloudfront.net/images/backgrounds/purty_wood_dark.png)"
+    style="background-size: cover; background-repeat: no-repeat; background-color: #6bb7e7"
+    :style="`background-image: url(${data.background});`"
     @click="openProjectDetails(data.session_uid)"
   >
     <div class="d-flex align-items-center justify-content-between">

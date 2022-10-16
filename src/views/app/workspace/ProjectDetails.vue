@@ -5,10 +5,8 @@
     <div
       v-if="project_data.boards"
       class="card card-body"
-      style="
-        min-height: 75vh;
-        background-image: url(https://d2k1ftgv7pobq7.cloudfront.net/images/backgrounds/purty_wood_dark.png);
-      "
+      style="min-height: 75vh; background-size: cover; background-repeat: no-repeat; background-color: #6bb7e7"
+      :style="`background-image: url(${project_data.background});`"
     >
       <el-scrollbar>
         <Draggable
@@ -39,7 +37,7 @@
                       />
                     </template>
                     <template #footer>
-                      <button class="card btn-create-task fw-bold text-secondary" @click="openDrawer('task', board)">
+                      <button class="card btn-create-task fw-bold text-white" @click="openDrawer('task', board)">
                         <i class="fir-add fw-bold" />New task
                       </button>
                     </template>
