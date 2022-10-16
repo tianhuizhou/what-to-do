@@ -5,7 +5,10 @@
     <div
       v-if="project_data.boards"
       class="card card-body"
-      style="background-image: url(https://d2k1ftgv7pobq7.cloudfront.net/images/backgrounds/purty_wood_dark.png)"
+      style="
+        min-height: 75vh;
+        background-image: url(https://d2k1ftgv7pobq7.cloudfront.net/images/backgrounds/purty_wood_dark.png);
+      "
     >
       <el-scrollbar>
         <Draggable

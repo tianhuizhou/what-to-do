@@ -36,6 +36,16 @@
 
         <MarkdownEditor :value="form_data.description" @input="form_data.description = $event" />
       </div>
+
+      <div class="my-3">
+        <h4>Estimated time</h4>
+        <TimeAutoInput :value="form_data.estimated_time" @input="form_data.estimated_time = $event" />
+      </div>
+
+      <div class="my-3">
+        <h4>Due date</h4>
+        <el-date-picker v-model="form_data.due_date" value-format="YYYY-MM-DDTHH:mm:ss.sssZ" class="w-100" />
+      </div>
     </el-scrollbar>
 
     <div class="drawer__footer">
@@ -49,6 +59,7 @@
   import { defineEmits, defineProps, reactive, ref } from 'vue'
   import TaskData from '@/utils/task_data'
   import MarkdownEditor from '@/components/common/MarkdownEditor'
+  import TimeAutoInput from '@/components/common/TimeAutoInput'
   import { ElMessage } from 'element-plus'
   import api from '@/helper/api'
 
@@ -69,6 +80,8 @@
     'priority': '',
     'description': '',
     'board_id': props.data.board_id,
+    'estimated_time': 0,
+    'due_date': '',
   })
   function createTask() {
     if (!formValidation(form_data)) {
@@ -84,7 +97,7 @@
       })
       .catch((err) => {
         console.error(err)
-        ElMessage.error(`Failed to create the board ${form_data.name}`)
+        ElMessage.error(`Failed to create the task ${form_data.name}`)
       })
       .finally(() => {
         loading.value = false

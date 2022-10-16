@@ -141,6 +141,9 @@ export default {
       'priority': task.priority,
       'description': task.description,
       'board_id': task.board_id,
+      'estimated_time': task.estimated_time,
+      'due_date': task.due_date,
+      'is_completed': false,
     }
     return axiosHelper(url, null, payload, 'POST', getHeaders())
   },
@@ -151,6 +154,9 @@ export default {
       'priority': task.priority,
       'description': task.description,
       'tags': task.tags,
+      'estimated_time': task.estimated_time,
+      'due_date': task.due_date,
+      'is_completed': task.is_completed,
     }
     return axiosHelper(url, null, payload, 'PUT', getHeaders())
   },

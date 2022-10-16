@@ -30,7 +30,7 @@ declare interface Task {
   description?: string
   tags?: [{ 'id': number }]
   board_id?: number
-  estimated_time?: string
+  estimated_time?: number
   due_date?: string
   is_completed?: boolean
   users?: User[]

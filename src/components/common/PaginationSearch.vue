@@ -41,7 +41,6 @@
     () => props.data,
     () => {
       if (!(props.data.length === 0 && fuse_search.value.length === 0)) {
-        console.log('init fuse_search')
         fuse_search.value = new Fuse(props.data, { keys: props.keys, threshold: 0.12, ignoreLocation: true })
         emitSearch()
       }

@@ -140,6 +140,9 @@
         ElMessage.error(err.error)
         console.error(err)
       })
+      .finally(() => {
+        loading.value = false
+      })
   }
 </script>
 
