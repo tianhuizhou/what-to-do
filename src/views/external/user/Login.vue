@@ -3,7 +3,7 @@
     <div class="card mx-auto" style="width: 500px">
       <div class="card-body text-center card-body-login" v-loading="loading">
         <div class="client-logo">
-          <img src="@/assets/logos/App-Logo.svg" alt="DocQ logo" style="height: 60px" />
+          <img src="@/assets/logos/App-Logo.svg" alt="WhatToDo logo" style="height: 60px" />
         </div>
 
         <div class="my-4">
@@ -37,7 +37,7 @@
           <button type="button" class="btn btn-primary mt-4 w-100" @click="login()">Sign In</button>
         </form>
 
-        <button type="button" class="btn btn-sm btn-link text-primary mt-2">Forgot your password?</button>
+        <!--        <button type="button" class="btn btn-sm btn-link text-primary mt-2">Forgot your password?</button>-->
       </div>
     </div>
   </div>
