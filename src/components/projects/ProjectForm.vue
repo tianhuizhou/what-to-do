@@ -89,6 +89,7 @@
     form_data.description = dto.description || ''
     form_data.visibility = dto.visibility || 'public'
     form_data.favorite = dto.favorite || false
+    form_data.background = dto.background || ''
   }
   function initFormData() {
     if (is_update.value) setupForm(store.getters['projects/by_id'](props.project_id))
