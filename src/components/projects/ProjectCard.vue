@@ -9,7 +9,9 @@
       <h3 class="fw-bold text-light mb-0">{{ data.name }}</h3>
 
       <el-dropdown @command="accessProject($event)" trigger="click">
-        <div class="el-dropdown-link" @click.stop><i class="fis-more mx-0 fs-1"></i></div>
+        <div class="el-dropdown-link" @click.stop>
+          <el-button link><i class="fis-more mx-0 fs-1"></i></el-button>
+        </div>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item command="edit" class="text-muted"> Edit </el-dropdown-item>

@@ -12,9 +12,14 @@
     </template>
 
     <div>
-      <h4 class="text-center border-bottom-1"><i class="fir-people-team" />Members</h4>
+      <h4 class="text-center mb-0">
+        <i class="fir-people-team" />Members
+        <el-button size="mini" link class="float-end p-0" @click="is_popover = false">
+          <i class="fir-dismiss m-0" />
+        </el-button>
+      </h4>
 
-      <hr class="text-secondary" />
+      <hr class="text-gray-300" />
 
       <PaginationSearch
         :data="is_popover ? user_list : []"
@@ -47,11 +52,10 @@
         </div>
 
         <div v-if="searched_users.length === 0" class="row-light d-flex align-items-center justify-content-center my-2">
-          <span> No result </span>
+          <span v-if="!loading"> No result </span>
+          <span v-else>loading data...</span>
         </div>
       </el-scrollbar>
-
-      <button class="btn btn-sm btn-primary float-end mt-2" @click="is_popover = false">Close</button>
     </div>
   </el-popover>
 </template>
@@ -67,6 +71,7 @@
     users: User[]
   }>()
 
+  let loading = ref<boolean>(false)
   let is_popover = ref<boolean>(false)
 
   const { list: user_list } = useGetters(['list'], 'users')
@@ -86,7 +91,10 @@
   }
 
   onMounted(() => {
-    loadUsers()
+    loading.value = true
+    loadUsers().finally(() => {
+      loading.value = false
+    })
   })
 </script>
 

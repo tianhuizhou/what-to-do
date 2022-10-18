@@ -28,7 +28,7 @@ declare interface Task {
   name: string
   priority?: string
   description?: string
-  tags?: [{ 'id': number }]
+  tags?: { 'id': number }[]
   board_id?: number
   estimated_time?: number
   due_date?: string

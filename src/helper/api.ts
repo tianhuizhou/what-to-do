@@ -34,8 +34,8 @@ interface FirebaseAPI {
   unassignTask(task_id: number, user_id: number): Promise<{ 'msg': string }>
   /* Tags */
   getTags(query_text?: string): Promise<{ 'data': Tag[] }>
-  createTag(tag: Tag): Promise<{ 'data': Tag[] }>
-  updateTag(tag_id: number, tag: Partial<Tag>): Promise<{ 'data': Tag[] }>
+  createTag(tag: Tag): Promise<{ 'data': Tag }>
+  updateTag(tag_id: number, tag: Partial<Tag>): Promise<{ 'data': Tag }>
   deleteTag(tag_id: number): Promise<{ 'msg': string }>
   /* Users */
   getUsers(): Promise<{ 'data': User[] }>

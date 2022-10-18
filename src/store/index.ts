@@ -14,5 +14,6 @@ export default createStore({
     'logged_user': logged_user,
     'projects': vuex_modules.projects_module,
     'users': vuex_modules.users_module,
+    'tags': vuex_modules.tags_module,
   },
 })

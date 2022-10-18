@@ -52,14 +52,14 @@ $--font-weight-primary: $font-weight-normal;
   --el-radio-input-width: 18px;
 
   // Checkbox
-
-  --el-checkbox-font-size: #{$font-size-base};
-  --el-checkbox-disabled-input-fill: #{$input-disabled-bg};
-  --el-checkbox-disabled-checked-input-fill: #{$input-disabled-bg};
-  --el-checkbox-input-border-color: #{$gray-800};
-  --el-checkbox-input-height: 18px;
-  --el-checkbox-input-width: 18px;
-  --el-checkbox-border-radius: 4px;
+  //
+  //--el-checkbox-font-size: #{$font-size-base};
+  //--el-checkbox-disabled-input-fill: #{$input-disabled-bg};
+  //--el-checkbox-disabled-checked-input-fill: #{$input-disabled-bg};
+  //--el-checkbox-input-border-color: #{$gray-800};
+  //--el-checkbox-input-height: 18px;
+  //--el-checkbox-input-width: 18px;
+  //--el-checkbox-border-radius: 4px;
 
   // Switch
 
@@ -675,24 +675,6 @@ $--font-weight-primary: $font-weight-normal;
   .el-radio__inner::after {
     width: 6px;
     height: 6px;
-  }
-}
-
-.el-checkbox {
-  @include el-check-radio('checkbox');
-
-  .el-checkbox__inner::after {
-    top: 0px;
-    left: 4px;
-    width: 4px;
-    height: 9px;
-    border-right-width: 2px;
-    border-bottom-width: 2px;
-  }
-
-  .el-checkbox__input.is-indeterminate .el-checkbox__inner::before {
-    transform: scale(0.5, 1);
-    top: 6px;
   }
 }
 

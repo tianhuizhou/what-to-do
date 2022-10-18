@@ -5,9 +5,15 @@
     </template>
 
     <div class="mb-2">
-      <h4 class="text-center border-bottom-1"><i class="fir-calendar" />{{ props.title }}</h4>
+      <h4 class="text-center mb-0">
+        <i class="fir-calendar" />{{ props.title }}
+        <el-button size="mini" link class="float-end p-0" @click="is_popover = false">
+          <i class="fir-dismiss m-0" />
+        </el-button>
+      </h4>
 
-      <hr class="text-secondary" />
+      <hr class="text-gray-300" />
+
       <el-date-picker
         v-model="date_value"
         @change="changeParent"

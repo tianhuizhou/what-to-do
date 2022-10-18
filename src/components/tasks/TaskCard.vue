@@ -36,8 +36,7 @@
       </div>
 
       <div class="col-12 d-flex align-items-center gap-1 my-2">
-        <el-tag size="small">Tag 1</el-tag>
-        <el-tag type="success" size="small">Tag 1</el-tag>
+        <WtdTag v-for="tag in data.tags" :key="tag.id" small :color="tag.theme">{{ tag.name }}</WtdTag>
       </div>
     </div>
 
@@ -45,8 +44,7 @@
       <div class="col text-start">
         <TaskPriorityFlag :priority="data.priority" :task_id="data.id" />
         <DatePickerPopover :value="data.due_date" @input="updateTaskDueDate" title="Due Date" />
-
-        <!--        <el-button circle class="border-0 p-1"><i class="fir-calendar-clock fs-2" /></el-button>-->
+        <TagSelectorPopover :task_id="data.id" :tags="data.tags" />
       </div>
       <div class="col text-end">
         <el-button
@@ -78,6 +76,8 @@
   import TaskPriorityFlag from '@/components/tasks/TaskPriorityFlag.vue'
   import UserAssignments from '@/components/common/UserAssignments.vue'
   import DatePickerPopover from '@/components/common/DatePickerPopover.vue'
+  import TagSelectorPopover from '@/components/tags/TagSelectorPopover.vue'
+  import WtdTag from '@/components/common/WtdTag.vue'
   import api from '@/helper/api'
   import common from '@/helper/common'
   import { ElMessage } from 'element-plus'

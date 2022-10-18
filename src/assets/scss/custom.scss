@@ -162,3 +162,23 @@ hr {
 
     transition: background-color 0.15s, border-color 0.15s;
 }
+
+.color-picker-item {
+    &.selected {
+        border: 2px solid $theme-color-2;
+        border-radius: 4px;
+        padding: 2px;
+
+        .el-tag {
+            width: 37px;
+            height: 23px;
+        }
+    }
+    :hover {
+        filter: brightness(85%) !important;
+    }
+    .el-tag {
+        width: 45px;
+        height: 32px;
+    }
+}

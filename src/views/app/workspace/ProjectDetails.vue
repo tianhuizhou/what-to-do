@@ -3,16 +3,18 @@
     <PageHeader :title="`Workspace - ${project_data.name || ''}`" back @back="exitPage"> </PageHeader>
 
     <div
-      v-if="project_data.boards"
+      v-loading="loading"
       class="card card-body"
-      style="min-height: 75vh; background-size: cover; background-repeat: no-repeat; background-color: #6bb7e7"
-      :style="`background-image: url(${project_data.background});`"
+      style="min-height: 75vh; background-size: cover; background-repeat: no-repeat"
+      :style="
+        project_data.background ? `background-image: url(${project_data.background});` : 'background-color: #6bb7e7'
+      "
     >
       <el-scrollbar>
         <Draggable
           class="d-flex gap-5 main-content"
           handle=".border-draggable"
-          :list="project_data.boards"
+          :list="project_data.boards ?? []"
           group="board"
           itemKey="id"
           @change="moveBoard"
@@ -229,11 +231,11 @@
 
   /* Lifecycle */
   onMounted(() => {
-    loading_effect = ElLoading.service({
-      lock: loading.value,
-      text: 'Loading',
-      background: 'rgba(0, 0, 0, 0.7)',
-    })
+    // loading_effect = ElLoading.service({
+    //   lock: loading.value,
+    //   text: 'Loading',
+    //   background: 'rgba(0, 0, 0, 0.7)',
+    // })
     loading.value = true
     // start listener
     unsub = api.getProjectRealtimeRef(session_id.value, project_data, loading)
@@ -241,11 +243,5 @@
   onUnmounted(() => {
     if (unsub) unsub()
   })
-  watch(
-    () => loading.value,
-    (to) => {
-      if (!to) loading_effect.close()
-    },
-  )
 </script>
 <style scoped></style>

@@ -37,6 +37,10 @@
         <MarkdownEditor :value="form_data.description" @input="form_data.description = $event" />
       </div>
 
+      <!--      <div class="my-3">-->
+      <!--        <h4>Tags</h4>-->
+      <!--      </div>-->
+
       <div class="my-3">
         <h4>Estimated time</h4>
         <TimeAutoInput :value="form_data.estimated_time" @input="form_data.estimated_time = $event" />
