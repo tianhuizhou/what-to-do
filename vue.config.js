@@ -7,8 +7,10 @@ module.exports = {
   publicPath: process.env.BASE_URL || '/',
   lintOnSave: false,
 
-  productionSourceMap: false,
-
+  productionSourceMap: true,
+  configureWebpack: {
+    devtool: 'source-map',
+  },
   // filename with hash breaks PWA
   filenameHashing: false,
 
