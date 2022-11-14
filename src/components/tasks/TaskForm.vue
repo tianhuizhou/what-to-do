@@ -54,7 +54,9 @@
 
     <div class="drawer__footer">
       <button class="btn btn-outline-secondary btn-drawer-width me-2" @click="closeDrawer()">Cancel</button>
-      <button class="btn btn-primary btn-drawer-width me-2" @click="createTask()">Create</button>
+      <button class="btn btn-primary btn-drawer-width me-2" @click="upsertTask()">
+        {{ props.data.id ? 'Update' : 'Create' }}
+      </button>
     </div>
   </div>
 </template>
@@ -80,18 +82,23 @@
   }
 
   let form_data = reactive<Task>({
-    'name': '',
-    'priority': '',
-    'description': '',
+    'name': props.data.name,
+    'priority': props.data.priority,
+    'description': props.data.description,
     'board_id': props.data.board_id,
-    'estimated_time': 0,
-    'due_date': '',
+    'estimated_time': props.data.estimated_time,
+    'due_date': props.data.due_date,
   })
-  function createTask() {
+
+  function upsertTask() {
     if (!formValidation(form_data)) {
       ElMessage.error('Please fill up all the required fields')
       return
     }
+    if (props.data.id) updateTask(props.data.id)
+    else createTask()
+  }
+  function createTask() {
     loading.value = true
     api
       .createTask(form_data)
@@ -107,6 +114,23 @@
         loading.value = false
       })
   }
+  function updateTask(task_id: number) {
+    loading.value = true
+    api
+      .updateTask(task_id, form_data)
+      .then(() => {
+        ElMessage.success(`${form_data.name} has been created successfully.`)
+        closeDrawer()
+      })
+      .catch((err) => {
+        console.error(err)
+        ElMessage.error(`Failed to create the task ${form_data.name}`)
+      })
+      .finally(() => {
+        loading.value = false
+      })
+  }
+
   function formValidation(dto: Task): boolean {
     if (!dto.name) return false
     else if (!dto.board_id) return false

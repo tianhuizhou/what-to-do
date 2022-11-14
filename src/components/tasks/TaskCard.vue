@@ -1,11 +1,12 @@
 <template>
-  <div class="app-task card cursor-pointer task-card">
+  <div class="app-task card cursor-pointer task-card" @click="handleTaskAction('open')">
     <div class="fs-6 fw-bolder text-muted mb-2">Workspace > {{ project_title }}</div>
 
     <div class="row align-items-center">
       <div class="col col-8 text-break">
         {{ data.name }}
         <el-popover
+          v-if="data.description"
           :width="300"
           :show-after="200"
           popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;"
@@ -21,15 +22,15 @@
         </el-popover>
       </div>
 
-      <div class="col-4 text-center ps-0">
+      <div class="col-4 text-center ps-0" @click.stop>
         <UserAssignments :task_id="data.id" :users="data.users" />
       </div>
 
       <div class="col-12 mb-2 mt-3">
-        <div class="text-muted fs-5 mb-1">
+        <div class="text-muted fs-5 mb-1" v-if="data.estimated_time">
           <i class="fir-timer" /> <span>Estimated: {{ common.minutesToTimeUnit(data.estimated_time) }}</span>
         </div>
-        <el-tag :type="getDueDateTag(data.is_completed, data.due_date)" effect="dark">
+        <el-tag :type="getDueDateTag(data.is_completed, data.due_date)" effect="dark" v-if="data.due_date">
           <i :class="data.is_completed ? 'fir-checkbox-checked' : 'fir-clock'" />
           <span v-if="data.due_date">Due: {{ common.getLocalDate(data.due_date) }}</span>
         </el-tag>
@@ -40,7 +41,7 @@
       </div>
     </div>
 
-    <div class="row align-items-center border-top border-1 mt-2 pt-2">
+    <div class="row align-items-center border-top border-1 mt-2 pt-2" @click.stop>
       <div class="col text-start">
         <TaskPriorityFlag :priority="data.priority" :task_id="data.id" />
         <DatePickerPopover :value="data.due_date" @input="updateTaskDueDate" title="Due Date" />
@@ -93,11 +94,13 @@
   )
   const emit = defineEmits<{
     (e: 'delete'): void
+    (e: 'open:details'): void
   }>()
 
   function handleTaskAction(action: string) {
     if (action === 'clone') cloneTask()
     else if (action === 'delete') emit('delete')
+    else if (action === 'open') emit('open:details')
   }
 
   function cloneTask() {

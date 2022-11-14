@@ -57,8 +57,9 @@
 }
 
 .project-card {
-    height: 100px;
+    height: 208px;
     width: 300px;
+    padding: 20px;
     transition: 0.2s ease;
     box-shadow: 0 0 1px 1px rgba($dark,10%), 0 3px 1px 0 rgba($dark, 10%);
     -webkit-filter: brightness(100%);

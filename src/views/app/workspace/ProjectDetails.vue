@@ -35,11 +35,15 @@
                         :data="task"
                         :project_title="project_data.name"
                         class="my-3"
+                        @open:details="openDrawer('task', { 'board_id': board.id, ...task })"
                         @delete="openTerminateDialog('task', task)"
                       />
                     </template>
                     <template #footer>
-                      <button class="card btn-create-task fw-bold text-white" @click="openDrawer('task', board)">
+                      <button
+                        class="card btn-create-task fw-bold text-white"
+                        @click="openDrawer('task', { 'board_id': board.id })"
+                      >
                         <i class="fir-add fw-bold" />New task
                       </button>
                     </template>
@@ -106,8 +110,6 @@
   import TaskForm from '@/components/tasks/TaskForm.vue'
   import TerminateForm from '@/components/common/TerminateForm.vue'
 
-  import { ElLoading } from 'element-plus'
-
   import api from '@/helper/api'
 
   import { onMounted, ref, computed, reactive, onUnmounted, watch } from 'vue'
@@ -143,12 +145,12 @@
     drawer.type = null
     drawer.dto = null
   }
-  function openDrawer(type: 'board' | 'task', dto?: Board) {
+  function openDrawer(type: 'board' | 'task', dto?: any) {
     if (type == 'board') {
       if (dto) drawer.dto = { 'id': dto.id, 'name': dto.name, 'theme': dto.theme }
       else drawer.dto = { 'name': '', 'theme': '', 'project_id': project_data.value.id }
     } else if (type == 'task') {
-      if (dto) drawer.dto = { 'name': '', 'board_id': dto.id }
+      drawer.dto = dto
     }
 
     drawer.is_show = true

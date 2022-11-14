@@ -1,6 +1,6 @@
 <template>
   <div
-    class="card project-card py-2 px-3 d-flex flex-column justify-content-between cursor-pointer"
+    class="card project-card d-flex flex-column justify-content-between cursor-pointer"
     style="background-size: cover; background-repeat: no-repeat; background-color: #6bb7e7"
     :style="`background-image: url(${data.background});`"
     @click="openProjectDetails(data.session_uid)"
@@ -30,7 +30,7 @@
 
 <script lang="ts" setup>
   import { defineProps, defineEmits } from 'vue'
-  import { useRouter, useRoute } from 'vue-router'
+  import { useRouter } from 'vue-router'
   import { ElMessageBox } from 'element-plus'
 
   const props = defineProps<{

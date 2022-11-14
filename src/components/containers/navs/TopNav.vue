@@ -36,7 +36,7 @@
         </div>
         <template #dropdown>
           <el-dropdown-menu style="width: 150px">
-            <el-dropdown-item command="profile">Profile</el-dropdown-item>
+            <!--            <el-dropdown-item command="profile">Profile</el-dropdown-item>-->
             <el-dropdown-item command="auth_token">Auth Token</el-dropdown-item>
             <el-dropdown-item divided command="logout">Logout</el-dropdown-item>
           </el-dropdown-menu>
@@ -56,7 +56,7 @@
 
   const { log_token, user_data } = useGetters(['log_token', 'user_data'])
   const user_name_initial = computed(() => {
-    return user_data.value.display_name[0] ?? ''
+    return user_data.value.display_name ? user_data.value.display_name[0] : ''
   })
 
   function handleCommand(command: string) {
